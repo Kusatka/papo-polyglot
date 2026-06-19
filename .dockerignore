@@ -1,0 +1,12 @@
+.git
+НЕ ДЛЯ ПРЕПОДАВАТЕЛЯ/
+__pycache__/
+*.pyc
+reports/
+diagrams/
+.venv/
+.env.local
+# документы и диаграммы не нужны в runtime-образе (любой уровень вложенности)
+**/*.docx
+**/*.png
+**/README.md

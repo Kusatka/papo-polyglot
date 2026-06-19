@@ -1,0 +1,257 @@
+# ============================================================================
+#  Проектирование архитектуры ПО — единый стенд (Практические 1–3, Лабы 1–2)
+#
+#  Пять хранилищ (полиглотная персистентность) + API Gateway с JWT + два
+#  сервиса аналитических запросов (лаб. 1 и 2), каждый в отдельном контейнере.
+#
+#  Данные и логи каждого хранилища вынесены в именованные тома (volume) —
+#  это и есть «настройка места хранения данных и лог-записей» из практ. №1.
+#  Имена томов фиксированы (papo_*), их физическое расположение на хосте
+#  смотреть через:  docker volume inspect papo_pg_data
+# ============================================================================
+name: papo
+
+# ── общий блок настройки логирования docker (ротация, чтобы не забить диск) ──
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  # ─────────────────────────── 1. PostgreSQL ───────────────────────────
+  # Транзакционные данные о посещаемости с партиционированием по неделям.
+  postgres:
+    image: postgres:16
+    container_name: papo-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    # Включаем сбор логов в файл внутри отдельного тома (место хранения лог-записей)
+    command:
+      - "postgres"
+      - "-c"
+      - "logging_collector=on"
+      - "-c"
+      - "log_directory=/var/log/postgresql"
+      - "-c"
+      - "log_filename=postgresql-%Y-%m-%d.log"
+      - "-c"
+      - "log_statement=ddl"
+      - "-c"
+      - "log_min_duration_statement=500"
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data          # место хранения данных
+      - pg_logs:/var/log/postgresql               # место хранения лог-записей
+      - ./init/postgres:/docker-entrypoint-initdb.d:ro  # авто-инициализация схемы
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    logging: *default-logging
+
+  # ─────────────────────────── 2. Redis ───────────────────────────────
+  # Ключ-значение: список студентов, ключ = номер зачётной книжки.
+  redis:
+    image: redis:7-alpine
+    container_name: papo-redis
+    restart: unless-stopped
+    # appendonly — персистентность (AOF); logfile — место хранения лог-записей
+    command: ["redis-server", "--appendonly", "yes", "--dir", "/data",
+              "--logfile", "/var/log/redis/redis.log", "--loglevel", "notice"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data            # место хранения данных (RDB + AOF)
+      - redis_logs:/var/log/redis   # место хранения лог-записей
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    logging: *default-logging
+
+  # ─────────────────────────── 3. MongoDB ─────────────────────────────
+  # Документ-композиция: документ группы с вложенным составом студентов.
+  mongo:
+    image: mongo:7
+    container_name: papo-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    # systemLog.path — место хранения лог-записей; dbPath по умолчанию /data/db
+    command: ["mongod", "--logpath", "/var/log/mongodb/mongod.log",
+              "--logappend", "--bind_ip_all"]
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db              # место хранения данных
+      - mongo_logs:/var/log/mongodb      # место хранения лог-записей
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+    logging: *default-logging
+
+  # ─────────────────────────── 4. Neo4j ───────────────────────────────
+  # Типизированные связи: граф группа–студент–курс (с курсами по выбору).
+  neo4j:
+    image: neo4j:5
+    container_name: papo-neo4j
+    restart: unless-stopped
+    environment:
+      NEO4J_AUTH: ${NEO4J_USER}/${NEO4J_PASSWORD}
+      NEO4J_server_memory_heap_initial__size: 512m
+      NEO4J_server_memory_heap_max__size: 512m
+    ports:
+      - "7474:7474"   # HTTP / Browser UI
+      - "7687:7687"   # Bolt
+    volumes:
+      - neo4j_data:/data    # место хранения данных
+      - neo4j_logs:/logs    # место хранения лог-записей
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u ${NEO4J_USER} -p ${NEO4J_PASSWORD} 'RETURN 1' || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+    logging: *default-logging
+
+  # ───────────────────────── 5. ElasticSearch ─────────────────────────
+  # Полнотекст + метаданные: описания курсов и лекций (поиск термина/фразы).
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    container_name: papo-elasticsearch
+    restart: unless-stopped
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"        # учебный контур, без TLS/паролей
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      bootstrap.memory_lock: "true"
+      path.logs: /usr/share/elasticsearch/logs
+    ulimits:
+      memlock: { soft: -1, hard: -1 }
+      nofile: { soft: 65536, hard: 65536 }
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data   # место хранения данных
+      - es_logs:/usr/share/elasticsearch/logs   # место хранения лог-записей
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+    logging: *default-logging
+
+  # ═══════════════════════ Сервисы лабораторных работ ═════════════════════
+  # API Gateway: выдаёт JWT и проксирует вызовы к сервисам лаб.
+  gateway:
+    build: .
+    image: papo-app:latest
+    container_name: papo-gateway
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+      MONGO_HOST: mongo
+      NEO4J_HOST: neo4j
+      ES_HOST: elasticsearch
+    command: ["uvicorn", "gateway.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - "8000:8000"
+    depends_on:
+      lab1: { condition: service_started }
+      lab2: { condition: service_started }
+    logging: *default-logging
+
+  # Лаб. №1 — 10 студентов с минимальной посещаемостью лекций по термину.
+  lab1:
+    build: .
+    image: papo-app:latest
+    container_name: papo-lab1
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+      MONGO_HOST: mongo
+      NEO4J_HOST: neo4j
+      ES_HOST: elasticsearch
+    command: ["uvicorn", "lab1.main:app", "--host", "0.0.0.0", "--port", "8001"]
+    ports:
+      - "8001:8001"
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      mongo: { condition: service_healthy }
+      elasticsearch: { condition: service_healthy }
+    logging: *default-logging
+
+  # Лаб. №2 — необходимый объём аудитории для курса за семестр/год.
+  lab2:
+    build: .
+    image: papo-app:latest
+    container_name: papo-lab2
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+      MONGO_HOST: mongo
+      NEO4J_HOST: neo4j
+      ES_HOST: elasticsearch
+    command: ["uvicorn", "lab2.main:app", "--host", "0.0.0.0", "--port", "8002"]
+    ports:
+      - "8002:8002"
+    depends_on:
+      postgres: { condition: service_healthy }
+      neo4j: { condition: service_healthy }
+      elasticsearch: { condition: service_healthy }
+    logging: *default-logging
+
+  # Утилитарный контейнер: генерация данных, healthcheck, CRUD-демо практ. №2.
+  # Не поднимается автоматически (профиль tools). Запуск разовых команд:
+  #   docker compose run --rm app python manage.py generate
+  app:
+    build: .
+    image: papo-app:latest
+    container_name: papo-app
+    profiles: ["tools"]
+    env_file: .env
+    environment:
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+      MONGO_HOST: mongo
+      NEO4J_HOST: neo4j
+      ES_HOST: elasticsearch
+    command: ["sleep", "infinity"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      mongo: { condition: service_healthy }
+      neo4j: { condition: service_healthy }
+      elasticsearch: { condition: service_healthy }
+
+volumes:
+  pg_data:      { name: papo_pg_data }
+  pg_logs:      { name: papo_pg_logs }
+  redis_data:   { name: papo_redis_data }
+  redis_logs:   { name: papo_redis_logs }
+  mongo_data:   { name: papo_mongo_data }
+  mongo_logs:   { name: papo_mongo_logs }
+  neo4j_data:   { name: papo_neo4j_data }
+  neo4j_logs:   { name: papo_neo4j_logs }
+  es_data:      { name: papo_es_data }
+  es_logs:      { name: papo_es_logs }
+
+networks:
+  default:
+    name: papo_net
