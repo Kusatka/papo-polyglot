@@ -1,0 +1,27 @@
+==== Состояние контейнеров ====
+Дата проверки: 2026-10-17 01:22:11
+
+$ docker compose ps --format table {{.Name}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}
+NAME                         IMAGE                                   STATUS                        PORTS
+practice01-elasticsearch     elasticsearch:8.16.0                    Up 4 minutes (healthy)        0.0.0.0:9200->9200/tcp, [::]:9200->9200/tcp
+practice01-kibana            kibana:8.16.0                           Up 3 minutes                  0.0.0.0:5601->5601/tcp, [::]:5601->5601/tcp
+practice01-mongo-express     mongo-express:1-20-alpine3.19           Up 8 minutes                  0.0.0.0:8082->8081/tcp, [::]:8082->8081/tcp
+practice01-mongodb           mongo:7                                 Up 4 minutes (healthy)        0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp
+practice01-neo4j             neo4j:5-community                       Up About a minute (healthy)   0.0.0.0:7474->7474/tcp, [::]:7474->7474/tcp, 0.0.0.0:7687->7687/tcp, [::]:7687->7687/tcp
+practice01-pgadmin           dpage/pgadmin4:latest                   Up 8 minutes                  0.0.0.0:8083->80/tcp, [::]:8083->80/tcp
+practice01-postgres          postgres:16-alpine                      Up 13 minutes (healthy)       0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
+practice01-redis             redis:7-alpine                          Up 14 minutes (healthy)       0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp
+practice01-redis-commander   rediscommander/redis-commander:latest   Up 8 minutes (healthy)        0.0.0.0:8081->8081/tcp, [::]:8081->8081/tcp
+
+$ docker stats --no-stream --format table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}
+NAME                         CPU %     MEM USAGE / LIMIT
+practice01-neo4j             0.93%     587.9MiB / 1.172GiB
+practice01-kibana            4.12%     576.6MiB / 1.5GiB
+practice01-mongodb           0.38%     81.73MiB / 1GiB
+practice01-elasticsearch     6.43%     1.073GiB / 1.5GiB
+practice01-pgadmin           0.02%     267.5MiB / 512MiB
+practice01-mongo-express     0.00%     57.34MiB / 256MiB
+practice01-redis-commander   0.00%     23.12MiB / 256MiB
+practice01-postgres          0.00%     27.55MiB / 512MiB
+practice01-redis             0.47%     10.9MiB / 300MiB
+

@@ -1,0 +1,117 @@
+erDiagram
+    UNIVERSITY ||--|{ INSTITUTE : "включает"
+    INSTITUTE ||--|{ DEPARTMENT : "включает"
+    DEPARTMENT ||--o{ DEPARTMENT_SPECIALTY : "ведёт"
+    SPECIALTY ||--o{ DEPARTMENT_SPECIALTY : "закреплена"
+    SPECIALTY ||--o{ LECTURE_COURSE : "содержит"
+    DEPARTMENT |o--o{ LECTURE_COURSE : "отвечает за"
+    SPECIALTY ||--o{ STUDENT_GROUP : "обучает"
+    LECTURE_COURSE ||--o{ LECTURE : "состоит из"
+    LECTURE ||--o{ LECTURE_MATERIAL : "имеет"
+    STUDENT_GROUP ||--o{ STUDENT : "включает"
+    STUDENT ||--o{ STUDENT_ELECTIVE : "выбирает"
+    LECTURE_COURSE ||--o{ STUDENT_ELECTIVE : "выбран"
+    LECTURE ||--o{ SCHEDULE : "проводится"
+    STUDENT_GROUP ||--o{ SCHEDULE : "занимается"
+    SCHEDULE ||--o{ ATTENDANCE : "отмечается"
+    STUDENT ||--o{ ATTENDANCE : "посещает"
+
+    UNIVERSITY {
+        uuid id PK
+        varchar name
+        varchar short_name
+        text address
+        int founded_year
+    }
+    INSTITUTE {
+        uuid id PK
+        uuid university_id FK
+        varchar name
+        varchar short_name
+        varchar dean
+    }
+    DEPARTMENT {
+        uuid id PK
+        uuid institute_id FK
+        varchar name
+        varchar short_name
+        varchar head
+    }
+    DEPARTMENT_SPECIALTY {
+        uuid id PK
+        uuid department_id FK
+        uuid specialty_id FK
+        boolean is_primary
+    }
+    SPECIALTY {
+        uuid id PK
+        varchar name
+        varchar code UK
+        varchar degree_level
+    }
+    LECTURE_COURSE {
+        uuid id PK
+        uuid specialty_id FK
+        uuid department_id FK
+        varchar name
+        int semester
+        int total_hours
+        boolean is_elective
+        text_array tags
+    }
+    LECTURE {
+        uuid id PK
+        uuid course_id FK
+        varchar title
+        text annotation
+        varchar lecture_type "lecture | practice | lab"
+        int order_number
+        text tech_requirements
+        text_array tags
+    }
+    LECTURE_MATERIAL {
+        uuid id PK
+        uuid lecture_id FK
+        varchar content_type
+        text content_text
+        varchar file_url
+        jsonb metadata
+    }
+    STUDENT_GROUP {
+        uuid id PK
+        uuid specialty_id FK
+        varchar name UK
+        int enrollment_year
+        varchar curator
+    }
+    STUDENT {
+        uuid id PK
+        uuid group_id FK
+        varchar last_name
+        varchar first_name
+        varchar patronymic
+        varchar student_card_number UK
+        varchar email UK
+        varchar status
+    }
+    STUDENT_ELECTIVE {
+        uuid student_id PK, FK
+        uuid course_id PK, FK
+    }
+    SCHEDULE {
+        uuid id PK
+        uuid lecture_id FK
+        uuid group_id FK
+        date scheduled_date
+        date week_start_date "понедельник недели"
+        time start_time
+        varchar classroom
+    }
+    ATTENDANCE {
+        uuid id PK
+        date week_start_date PK "ключ партиций"
+        uuid schedule_id
+        uuid student_id
+        boolean is_present
+        timestamp marked_at
+    }

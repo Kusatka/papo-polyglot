@@ -1,0 +1,10 @@
+{
+  "_source": ["title", "tech_requirements"],
+  "query": {
+    "bool": {
+      "must":   [ { "match": { "tech_requirements": "Docker" } } ],
+      "filter": [ { "term": { "lecture_type": "lab" } },
+                  { "term": { "tags": "спецдисциплина кафедры" } } ]
+    }
+  }
+}

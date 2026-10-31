@@ -1,0 +1,8 @@
+==== Веб-интерфейсы (HTTP-код ответа) ====
+Дата проверки: 2026-10-17 01:22:53
+
+Redis Commander  http://localhost:8081                    HTTP 200
+Mongo Express    http://localhost:8082                    HTTP 200
+Neo4j Browser    http://localhost:7474                    HTTP 200
+Kibana           http://localhost:5601/api/status         HTTP 200
+pgAdmin 4        http://localhost:8083/misc/ping          HTTP 200

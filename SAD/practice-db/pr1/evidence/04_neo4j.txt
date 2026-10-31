@@ -1,0 +1,50 @@
+==== Neo4j ====
+Дата проверки: 2026-10-17 01:22:24
+
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword CALL dbms.components() YIELD name, versions, edition RETURN name, versions, edition;
+name, versions, edition
+"Neo4j Kernel", ["5.26.32"], "community"
+
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword SHOW DATABASES YIELD name, currentStatus;
+name, currentStatus
+"neo4j", "online"
+"system", "online"
+
+$ curl -s http://localhost:7474
+{"bolt_routing":"neo4j://localhost:7687","query":"http://localhost:7474/db/{databaseName}/query/v2","transaction":"http://localhost:7474/db/{databaseName}/tx","bolt_direct":"bolt://localhost:7687","neo4j_version":"5.26.32","neo4j_edition":"community"}
+-- место хранения данных и журналов:
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword SHOW SETTINGS YIELD name, value WHERE name STARTS WITH 'server.directories.data' OR name STARTS WITH 'server.directories.logs' RETURN name, value;
+name, value
+"server.directories.data", "/var/lib/neo4j/data"
+"server.directories.logs", "/logs"
+
+-- базовые операции:
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword MATCH (n) WHERE n:Student OR n:Course DETACH DELETE n;
+
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword CREATE (s1:Student {name: 'Иванов Иван', group: 'ИКБО-01-22'}), (s2:Student {name: 'Петрова Мария', group: 'ИКБО-02-22'}), (c1:Course {title: 'Базы данных', credits: 4}), (c2:Course {title: 'Программирование', credits: 5}), (s1)-[:ENROLLED_IN {semester: 'весна 2024'}]->(c1), (s1)-[:ENROLLED_IN {semester: 'весна 2024'}]->(c2), (s2)-[:ENROLLED_IN {semester: 'весна 2024'}]->(c1);
+
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword MATCH (s:Student)-[:ENROLLED_IN]->(c:Course) RETURN c.title AS course, count(s) AS students ORDER BY students DESC;
+course, students
+"Базы данных", 2
+"Программирование", 1
+
+$ docker exec practice01-neo4j ls -la /data /logs
+/data:
+total 24
+drwxrwxrwx 5 neo4j neo4j 4096 Oct 16 22:09 .
+drwxr-xr-x 1 root  root  4096 Oct 16 22:21 ..
+drwxrwxrwx 4 neo4j neo4j 4096 Oct 16 22:09 databases
+drwxr-xr-x 2 neo4j neo4j 4096 Oct 16 22:21 dbms
+-rw-r--r-- 1 neo4j neo4j   17 Oct 16 22:09 server_id
+drwxrwxrwx 4 neo4j neo4j 4096 Oct 16 22:09 transactions
+
+/logs:
+total 392
+drwxrwxrwx 1 root  root     512 Oct 16 22:09 .
+drwxr-xr-x 1 root  root    4096 Oct 16 22:21 ..
+-rw-r--r-- 1 neo4j neo4j 178704 Oct 16 22:21 debug.log
+-rw-r--r-- 1 neo4j neo4j      0 Oct 16 22:09 http.log
+-rw-r--r-- 1 neo4j neo4j   1985 Oct 16 22:21 neo4j.log
+-rw-r--r-- 1 neo4j neo4j      0 Oct 16 22:09 query.log
+-rw-r--r-- 1 neo4j neo4j      0 Oct 16 22:09 security.log
+

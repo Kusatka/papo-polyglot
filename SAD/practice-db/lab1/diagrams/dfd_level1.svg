@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1840" height="1180" viewBox="0 0 1840 1180" font-family="'Segoe UI', Arial, sans-serif"><defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker></defs><rect width="100%" height="100%" fill="#fff"/><text x="920" y="26.0" font-size="19" fill="#000" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">DFD (Йордан–Коуд), уровень 1 — процессы шлюза и сервиса ЛР №1</text>
+<rect x="40.0" y="425.0" width="220" height="90" fill="#eef3fb" stroke="#2e4a7a" stroke-width="2"/>
+<text x="150" y="470.0" font-size="15" fill="#000" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">Пользователь API</text>
+<circle cx="470" cy="250" r="92" fill="#fff8e6" stroke="#9a6b00" stroke-width="2"/>
+<text x="470" y="184.0" font-size="16" fill="#7a5200" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">1</text>
+<text x="470" y="250.2" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Аутентифицировать</text>
+<text x="470" y="269.8" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">пользователя</text>
+<circle cx="470" cy="700" r="92" fill="#fff8e6" stroke="#9a6b00" stroke-width="2"/>
+<text x="470" y="634.0" font-size="16" fill="#7a5200" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">2</text>
+<text x="470" y="700.2" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Проверить JWT</text>
+<text x="470" y="719.8" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">и передать запрос</text>
+<circle cx="900" cy="470" r="92" fill="#fff8e6" stroke="#9a6b00" stroke-width="2"/>
+<text x="900" y="404.0" font-size="16" fill="#7a5200" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">3</text>
+<text x="900" y="470.2" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Найти лекции</text>
+<text x="900" y="489.8" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">с термином</text>
+<circle cx="1360" cy="470" r="92" fill="#fff8e6" stroke="#9a6b00" stroke-width="2"/>
+<text x="1360" y="404.0" font-size="16" fill="#7a5200" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">4</text>
+<text x="1360" y="460.5" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Рассчитать</text>
+<text x="1360" y="480.0" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">посещаемость</text>
+<text x="1360" y="499.5" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">за период</text>
+<circle cx="1360" cy="900" r="92" fill="#fff8e6" stroke="#9a6b00" stroke-width="2"/>
+<text x="1360" y="834.0" font-size="16" fill="#7a5200" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">5</text>
+<text x="1360" y="890.5" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Получить</text>
+<text x="1360" y="910.0" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">карточки</text>
+<text x="1360" y="929.5" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">студентов</text>
+<circle cx="900" cy="960" r="92" fill="#fff8e6" stroke="#9a6b00" stroke-width="2"/>
+<text x="900" y="894.0" font-size="16" fill="#7a5200" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">6</text>
+<text x="900" y="960.2" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Сформировать</text>
+<text x="900" y="979.8" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">отчёт</text>
+<line x1="270.0" y1="51" x2="670.0" y2="51" stroke="#2f6b2f" stroke-width="2"/>
+<line x1="270.0" y1="99" x2="670.0" y2="99" stroke="#2f6b2f" stroke-width="2"/>
+<text x="278.0" y="75.0" font-size="15" fill="#2f6b2f" font-weight="bold" text-anchor="start" dominant-baseline="middle" style="">D1</text>
+<text x="488" y="75.0" font-size="14" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Учётные записи шлюза (логин, роль, PBKDF2)</text>
+<line x1="710.0" y1="161" x2="1090.0" y2="161" stroke="#2f6b2f" stroke-width="2"/>
+<line x1="710.0" y1="209" x2="1090.0" y2="209" stroke="#2f6b2f" stroke-width="2"/>
+<text x="718.0" y="185.0" font-size="15" fill="#2f6b2f" font-weight="bold" text-anchor="start" dominant-baseline="middle" style="">D2</text>
+<text x="918" y="185.0" font-size="14" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Индекс lectures (Elasticsearch)</text>
+<line x1="1170.0" y1="161" x2="1690.0" y2="161" stroke="#2f6b2f" stroke-width="2"/>
+<line x1="1170.0" y1="209" x2="1690.0" y2="209" stroke="#2f6b2f" stroke-width="2"/>
+<text x="1178.0" y="185.0" font-size="15" fill="#2f6b2f" font-weight="bold" text-anchor="start" dominant-baseline="middle" style="">D3</text>
+<text x="1448" y="185.0" font-size="14" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Журнал attendance (недельные партиции) и schedule</text>
+<line x1="1475.0" y1="1066" x2="1805.0" y2="1066" stroke="#2f6b2f" stroke-width="2"/>
+<line x1="1475.0" y1="1114" x2="1805.0" y2="1114" stroke="#2f6b2f" stroke-width="2"/>
+<text x="1483.0" y="1090.0" font-size="15" fill="#2f6b2f" font-weight="bold" text-anchor="start" dominant-baseline="middle" style="">D4</text>
+<text x="1658" y="1090.0" font-size="14" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Студенты, группы, специальности</text>
+<line x1="960.0" y1="1086" x2="1300.0" y2="1086" stroke="#2f6b2f" stroke-width="2"/>
+<line x1="960.0" y1="1134" x2="1300.0" y2="1134" stroke="#2f6b2f" stroke-width="2"/>
+<text x="968.0" y="1110.0" font-size="15" fill="#2f6b2f" font-weight="bold" text-anchor="start" dominant-baseline="middle" style="">D5</text>
+<text x="1148" y="1110.0" font-size="14" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Кэш student:{id} (Redis, TTL 2 ч)</text>
+<text x="1430" y="225.0" font-size="13" fill="#2f6b2f" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="font-style:italic;">(PostgreSQL)</text>
+<text x="1640" y="1130.0" font-size="13" fill="#2f6b2f" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="font-style:italic;">(PostgreSQL)</text>
+<polyline points="130.0,425.0 130.0,235.0 378.1,245.9" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="250" y="222.0" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">логин, пароль</text>
+<polyline points="378.3,257.6 170.0,275.0 170.0,425.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="260" y="290.0" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">JWT</text>
+<polyline points="470.0,99.0 470.0,158.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="530" y="118.9" font-size="14" fill="#222" font-weight="normal" text-anchor="start" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">роль, хеш</text>
+<text x="530" y="137.1" font-size="14" fill="#222" font-weight="normal" text-anchor="start" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">пароля</text>
+<polyline points="260.0,455.0 300.0,455.0 300.0,660.0 380.4,678.9" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="300" y="550.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">термин, период,</text>
+<text x="300" y="569.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">limit, JWT</text>
+<polyline points="379.3,715.1 230.0,740.0 230.0,515.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="230" y="630.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">401 /</text>
+<text x="230" y="649.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">422</text>
+<polyline points="551.1,656.6 818.9,513.4" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="690" y="550.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">термин,</text>
+<text x="690" y="569.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">период, limit</text>
+<polyline points="900.0,209.0 900.0,378.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="965" y="280.9" font-size="14" fill="#222" font-weight="normal" text-anchor="start" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">id лекций, курс,</text>
+<text x="965" y="299.1" font-size="14" fill="#222" font-weight="normal" text-anchor="start" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">название, фрагмент</text>
+<polyline points="992.0,470.0 1268.0,470.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="1130" y="430.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">id лекций,</text>
+<text x="1130" y="449.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">период, limit</text>
+<polyline points="900.0,562.0 900.0,868.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="800" y="705.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">термин в занятиях</text>
+<text x="800" y="724.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">курсов, фрагменты</text>
+<polyline points="1360.0,209.0 1360.0,378.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="1425" y="290.9" font-size="14" fill="#222" font-weight="normal" text-anchor="start" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">отметки is_present</text>
+<text x="1425" y="309.1" font-size="14" fill="#222" font-weight="normal" text-anchor="start" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">по лекциям периода</text>
+<polyline points="1360.0,562.0 1360.0,808.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="1370" y="680.9" font-size="14" fill="#222" font-weight="normal" text-anchor="start" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">id 10 студентов</text>
+<text x="1370" y="699.1" font-size="14" fill="#222" font-weight="normal" text-anchor="start" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">с минимальным %</text>
+<polyline points="1297.0,537.1 963.0,892.9" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="1080" y="710.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">посещено, всего, %,</text>
+<text x="1080" y="729.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">курсы студента</text>
+<polyline points="1110.0,1086.0 1286.2,954.9" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="1110" y="1040.0" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">карточка (попадание)</text>
+<polyline points="1313.2,979.2 1250.0,1086.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="1335" y="1050.9" font-size="14" fill="#222" font-weight="normal" text-anchor="start" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">промах: запись</text>
+<text x="1335" y="1069.1" font-size="14" fill="#222" font-weight="normal" text-anchor="start" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">карточки, TTL</text>
+<polyline points="1640.0,1066.0 1439.1,946.9" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="1560" y="980.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">карточка</text>
+<text x="1560" y="999.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">(промах)</text>
+<polyline points="1268.8,911.9 991.2,948.1" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="1130" y="905.0" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">карточки студентов</text>
+<polyline points="808.0,960.0 150.0,960.0 150.0,515.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="470" y="950.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">отчёт: карточки, % посещения,</text>
+<text x="470" y="969.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">период, термин в занятиях курса</text></svg>

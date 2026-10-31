@@ -1,0 +1,79 @@
+==== Redis ====
+Дата проверки: 2026-10-17 01:22:14
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning PING
+PONG
+
+$ docker exec practice01-redis redis-cli -a 'mypassword' --no-auth-warning INFO server | grep -E 'redis_version|os|uptime_in_seconds|tcp_port'
+redis_version:7.4.11
+os:Linux 6.18.40.1-microsoft-standard-WSL2 x86_64
+tcp_port:6379
+uptime_in_seconds:849
+
+-- место хранения данных и журнала:
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning CONFIG GET dir
+dir
+/data
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning CONFIG GET appendonly
+appendonly
+yes
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning CONFIG GET save
+save
+60 1
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning CONFIG GET logfile
+logfile
+/var/log/redis/redis.log
+
+-- базовые операции:
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning SET mykey Hello, Redis!
+OK
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning GET mykey
+Hello, Redis!
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning HSET user:1 name Ivanov age 20 group IKBO-01-22
+0
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning HGETALL user:1
+name
+Ivanov
+age
+20
+group
+IKBO-01-22
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning DBSIZE
+2
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning BGREWRITEAOF
+Background append only file rewriting started
+
+$ docker exec practice01-redis ls -la /data /data/appendonlydir
+/data:
+total 16
+drwxr-xr-x    3 redis    redis         4096 Oct 16 22:22 .
+drwxr-xr-x    1 root     root          4096 Oct 16 22:08 ..
+drwx------    2 redis    redis         4096 Oct 16 22:22 appendonlydir
+-rw-------    1 redis    redis          176 Oct 16 22:22 dump.rdb
+
+/data/appendonlydir:
+total 16
+drwx------    2 redis    redis         4096 Oct 16 22:22 .
+drwxr-xr-x    3 redis    redis         4096 Oct 16 22:22 ..
+-rw-------    1 redis    redis          175 Oct 16 22:22 appendonly.aof.4.base.rdb
+-rw-------    1 redis    redis            0 Oct 16 22:22 appendonly.aof.4.incr.aof
+-rw-------    1 redis    redis           88 Oct 16 22:22 appendonly.aof.manifest
+
+$ docker exec practice01-redis tail -n 8 /var/log/redis/redis.log
+1:M 16 Oct 2026 22:22:17.806 * Background append only file rewriting started by pid 769
+769:C 16 Oct 2026 22:22:17.815 * Successfully created the temporary AOF base file temp-rewriteaof-bg-769.aof
+769:C 16 Oct 2026 22:22:17.818 * Fork CoW for AOF rewrite: current 0 MB, peak 0 MB, average 0 MB
+1:M 16 Oct 2026 22:22:17.910 * Background AOF rewrite terminated with success
+1:M 16 Oct 2026 22:22:17.913 * Successfully renamed the temporary AOF base file temp-rewriteaof-bg-769.aof into appendonly.aof.4.base.rdb
+1:M 16 Oct 2026 22:22:17.923 * Removing the history file appendonly.aof.3.incr.aof in the background
+1:M 16 Oct 2026 22:22:17.925 * Removing the history file appendonly.aof.3.base.rdb in the background
+1:M 16 Oct 2026 22:22:17.936 * Background AOF rewrite finished successfully
+

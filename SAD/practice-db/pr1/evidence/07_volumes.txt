@@ -1,0 +1,66 @@
+==== Тома Docker (место хранения данных) ====
+Дата проверки: 2026-10-17 01:22:48
+
+$ docker volume ls --filter name=practice01
+DRIVER    VOLUME NAME
+local     practice01_es_data
+local     practice01_mongodb_config
+local     practice01_mongodb_data
+local     practice01_neo4j_data
+local     practice01_pgadmin_data
+local     practice01_postgres_data
+local     practice01_redis_data
+
+$ docker volume inspect practice01_es_data --format '{{.Name}} -> {{.Mountpoint}}'
+practice01_es_data -> /var/lib/docker/volumes/practice01_es_data/_data
+
+$ docker volume inspect practice01_mongodb_config --format '{{.Name}} -> {{.Mountpoint}}'
+practice01_mongodb_config -> /var/lib/docker/volumes/practice01_mongodb_config/_data
+
+$ docker volume inspect practice01_mongodb_data --format '{{.Name}} -> {{.Mountpoint}}'
+practice01_mongodb_data -> /var/lib/docker/volumes/practice01_mongodb_data/_data
+
+$ docker volume inspect practice01_neo4j_data --format '{{.Name}} -> {{.Mountpoint}}'
+practice01_neo4j_data -> /var/lib/docker/volumes/practice01_neo4j_data/_data
+
+$ docker volume inspect practice01_pgadmin_data --format '{{.Name}} -> {{.Mountpoint}}'
+practice01_pgadmin_data -> /var/lib/docker/volumes/practice01_pgadmin_data/_data
+
+$ docker volume inspect practice01_postgres_data --format '{{.Name}} -> {{.Mountpoint}}'
+practice01_postgres_data -> /var/lib/docker/volumes/practice01_postgres_data/_data
+
+$ docker volume inspect practice01_redis_data --format '{{.Name}} -> {{.Mountpoint}}'
+practice01_redis_data -> /var/lib/docker/volumes/practice01_redis_data/_data
+
+-- какие тома и каталоги смонтированы в каждый контейнер:
+$ docker inspect practice01-redis --format '{{.Name}}:{{range .Mounts}}
+  {{.Type}}  {{if .Name}}{{.Name}}{{else}}{{.Source}}{{end}} -> {{.Destination}}{{end}}'
+/practice01-redis:
+  volume  practice01_redis_data -> /data
+  bind  /run/desktop/mnt/host/c/Users/sudov/Desktop/study debt autumn/SAD/practice-db/pr1/logs/redis -> /var/log/redis
+
+$ docker inspect practice01-mongodb --format '{{.Name}}:{{range .Mounts}}
+  {{.Type}}  {{if .Name}}{{.Name}}{{else}}{{.Source}}{{end}} -> {{.Destination}}{{end}}'
+/practice01-mongodb:
+  bind  C:\Users\sudov\Desktop\study debt autumn\SAD\practice-db\pr1\logs\mongodb -> /var/log/mongodb
+  volume  practice01_mongodb_config -> /data/configdb
+  volume  practice01_mongodb_data -> /data/db
+
+$ docker inspect practice01-neo4j --format '{{.Name}}:{{range .Mounts}}
+  {{.Type}}  {{if .Name}}{{.Name}}{{else}}{{.Source}}{{end}} -> {{.Destination}}{{end}}'
+/practice01-neo4j:
+  volume  practice01_neo4j_data -> /data
+  bind  /run/desktop/mnt/host/c/Users/sudov/Desktop/study debt autumn/SAD/practice-db/pr1/logs/neo4j -> /logs
+
+$ docker inspect practice01-elasticsearch --format '{{.Name}}:{{range .Mounts}}
+  {{.Type}}  {{if .Name}}{{.Name}}{{else}}{{.Source}}{{end}} -> {{.Destination}}{{end}}'
+/practice01-elasticsearch:
+  bind  C:\Users\sudov\Desktop\study debt autumn\SAD\practice-db\pr1\logs\elasticsearch -> /usr/share/elasticsearch/logs
+  volume  practice01_es_data -> /usr/share/elasticsearch/data
+
+$ docker inspect practice01-postgres --format '{{.Name}}:{{range .Mounts}}
+  {{.Type}}  {{if .Name}}{{.Name}}{{else}}{{.Source}}{{end}} -> {{.Destination}}{{end}}'
+/practice01-postgres:
+  volume  practice01_postgres_data -> /var/lib/postgresql/data
+  bind  /run/desktop/mnt/host/c/Users/sudov/Desktop/study debt autumn/SAD/practice-db/pr1/logs/postgres -> /var/log/postgresql
+

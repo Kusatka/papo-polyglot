@@ -1,0 +1,403 @@
+{
+ "term": "масштабирование",
+ "period": {
+  "from": "2026-02-09",
+  "to": "2026-04-19"
+ },
+ "lectures_found": 17,
+ "term_in_courses": [
+  {
+   "specialty": "09.03.04",
+   "course": "Проектирование архитектуры ПО",
+   "lectures": 9,
+   "examples": [
+    {
+     "title": "Масштабирование: принципы и применение",
+     "fragment": "<em>Масштабирование</em>: принципы и применение"
+    },
+    {
+     "title": "Введение в дисциплину «Проектирование архитектуры ПО»",
+     "fragment": "Студенты учатся проектировать компоненты с учётом требований к «<em>масштабирование</em>»."
+    }
+   ]
+  },
+  {
+   "specialty": "38.03.05",
+   "course": "Проектирование архитектуры ПО",
+   "lectures": 8,
+   "examples": [
+    {
+     "title": "Масштабирование: принципы и применение",
+     "fragment": "<em>Масштабирование</em>: принципы и применение"
+    },
+    {
+     "title": "C4: принципы и применение",
+     "fragment": "Приводятся практические примеры применения подхода «<em>масштабирование</em>» в корпоративной среде."
+    }
+   ]
+  }
+ ],
+ "scope": {
+  "classes": 24,
+  "marks": 462,
+  "students": 77
+ },
+ "students": [
+  {
+   "rank": 1,
+   "student": {
+    "id": "15fb84fc-403b-587a-b599-62dc5046fefd",
+    "student_card_number": "23Б0420",
+    "full_name": "Козлов Иван Романович",
+    "group": "ИКБО-02-23",
+    "specialty": "09.03.04 Программная инженерия",
+    "email": "23b0420@edu.mirea.ru",
+    "phone": "+7 941 746-50-92",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 1,
+   "total": 6,
+   "attendance_pct": 16.7,
+   "term_in_courses": [
+    "Проектирование архитектуры ПО"
+   ]
+  },
+  {
+   "rank": 2,
+   "student": {
+    "id": "ce70cc35-e23c-5f8b-b392-58a9e4e31976",
+    "student_card_number": "23Б0315",
+    "full_name": "Новикова Ирина Михайловна",
+    "group": "ИКБО-01-23",
+    "specialty": "09.03.04 Программная инженерия",
+    "email": "23b0315@edu.mirea.ru",
+    "phone": "+7 976 691-47-32",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 1,
+   "total": 6,
+   "attendance_pct": 16.7,
+   "term_in_courses": [
+    "Проектирование архитектуры ПО"
+   ]
+  },
+  {
+   "rank": 3,
+   "student": {
+    "id": "e0d12cea-0d8e-5e8f-84cd-4797a899defb",
+    "student_card_number": "23Б0307",
+    "full_name": "Иванов Александр Андреевич",
+    "group": "ИКБО-01-23",
+    "specialty": "09.03.04 Программная инженерия",
+    "email": "23b0307@edu.mirea.ru",
+    "phone": "+7 911 412-37-29",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 1,
+   "total": 6,
+   "attendance_pct": 16.7,
+   "term_in_courses": [
+    "Проектирование архитектуры ПО"
+   ]
+  },
+  {
+   "rank": 4,
+   "student": {
+    "id": "6ff80fad-d228-58a1-9caa-1fc50d05b061",
+    "student_card_number": "23Б0408",
+    "full_name": "Семёнова Софья Сергеевна",
+    "group": "ИКБО-02-23",
+    "specialty": "09.03.04 Программная инженерия",
+    "email": "23b0408@edu.mirea.ru",
+    "phone": "+7 952 858-98-15",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 2,
+   "total": 6,
+   "attendance_pct": 33.3,
+   "term_in_courses": [
+    "Проектирование архитектуры ПО"
+   ]
+  },
+  {
+   "rank": 5,
+   "student": {
+    "id": "712d0d3e-0d64-505c-85c0-53d7d59dfbc0",
+    "student_card_number": "23Б0206",
+    "full_name": "Киселёв Кирилл Михайлович",
+    "group": "БСБО-02-23",
+    "specialty": "38.03.05 Бизнес-информатика",
+    "email": "23b0206@edu.mirea.ru",
+    "phone": "+7 911 158-22-40",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 2,
+   "total": 6,
+   "attendance_pct": 33.3,
+   "term_in_courses": [
+    "Проектирование архитектуры ПО"
+   ]
+  },
+  {
+   "rank": 6,
+   "student": {
+    "id": "cf657c16-77ac-5c4d-800a-ebc04526d32e",
+    "student_card_number": "23Б0301",
+    "full_name": "Богданов Алексей Олегович",
+    "group": "ИКБО-01-23",
+    "specialty": "09.03.04 Программная инженерия",
+    "email": "23b0301@edu.mirea.ru",
+    "phone": "+7 932 812-62-76",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 2,
+   "total": 6,
+   "attendance_pct": 33.3,
+   "term_in_courses": [
+    "Проектирование архитектуры ПО"
+   ]
+  },
+  {
+   "rank": 7,
+   "student": {
+    "id": "e4e6ac03-20fb-51e9-a458-66a7a95de209",
+    "student_card_number": "23Б0421",
+    "full_name": "Макарова Мария Ивановна",
+    "group": "ИКБО-02-23",
+    "specialty": "09.03.04 Программная инженерия",
+    "email": "23b0421@edu.mirea.ru",
+    "phone": "+7 983 298-50-44",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 2,
+   "total": 6,
+   "attendance_pct": 33.3,
+   "term_in_courses": [
+    "Проектирование архитектуры ПО"
+   ]
+  },
+  {
+   "rank": 8,
+   "student": {
+    "id": "0a07e916-3f5d-5c95-8d56-cc2ee53321a2",
+    "student_card_number": "23Б0123",
+    "full_name": "Белов Александр Сергеевич",
+    "group": "БСБО-01-23",
+    "specialty": "38.03.05 Бизнес-информатика",
+    "email": "23b0123@edu.mirea.ru",
+    "phone": "+7 992 642-37-76",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 3,
+   "total": 6,
+   "attendance_pct": 50.0,
+   "term_in_courses": [
+    "Проектирование архитектуры ПО"
+   ]
+  },
+  {
+   "rank": 9,
+   "student": {
+    "id": "18c45a4f-9817-5fbb-b67f-fc1ded545cf0",
+    "student_card_number": "23Б0121",
+    "full_name": "Голубев Никита Николаевич",
+    "group": "БСБО-01-23",
+    "specialty": "38.03.05 Бизнес-информатика",
+    "email": "23b0121@edu.mirea.ru",
+    "phone": "+7 986 338-96-18",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 3,
+   "total": 6,
+   "attendance_pct": 50.0,
+   "term_in_courses": [
+    "Проектирование архитектуры ПО"
+   ]
+  },
+  {
+   "rank": 10,
+   "student": {
+    "id": "303c982c-80c4-5c66-97b8-eaa77e4028ff",
+    "student_card_number": "23Б0124",
+    "full_name": "Лебедев Роман Алексеевич",
+    "group": "БСБО-01-23",
+    "specialty": "38.03.05 Бизнес-информатика",
+    "email": "23b0124@edu.mirea.ru",
+    "phone": "+7 964 645-63-20",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 3,
+   "total": 6,
+   "attendance_pct": 50.0,
+   "term_in_courses": [
+    "Проектирование архитектуры ПО"
+   ]
+  }
+ ],
+ "trace": [
+  {
+   "step": 1,
+   "store": "Elasticsearch",
+   "action": "multi_match(phrase) «масштабирование» по title/annotation/content_text, lecture_type=lecture",
+   "result": "найдено лекций: 17 из 17, курсов: 2",
+   "ms": 17.0,
+   "details": {
+    "courses": [
+     {
+      "specialty": "09.03.04",
+      "course": "Проектирование архитектуры ПО",
+      "lectures": 9
+     },
+     {
+      "specialty": "38.03.05",
+      "course": "Проектирование архитектуры ПО",
+      "lectures": 8
+     }
+    ],
+    "lecture_ids": [
+     "0ca1e5c4-313d-5875-80fb-deaf30105709",
+     "105d430f-9936-549f-a6ea-7d9e5c0e135e",
+     "583e96ab-b530-5c7f-8c95-347b76ea8fbd",
+     "6dec7b93-4ed4-58f5-9a6e-e089fb647fed",
+     "77ab7758-ce6b-5592-b91e-4969778ab3d3",
+     "9011bd48-c369-550d-a26d-e64140a4613e",
+     "940cd453-e148-544a-b7b4-3447771268ef",
+     "9bfbcf92-0d58-520c-8fa4-7807d69395c9",
+     "aac02433-4ca9-5c21-8524-68e8bd4284d6",
+     "ae6f198d-e7ee-5b4c-a704-7cfaafb528ee",
+     "b4a371f9-2c49-5bf9-8707-1c6457c9f783",
+     "d094bd7e-5f90-524b-98aa-60adb667824a",
+     "f782dd6d-5adc-5dfa-8fb2-a8b45e9ac535",
+     "f7b40805-c93e-5ba9-9661-a8abb47d9f33",
+     "f8ac700f-a2a1-5040-a30d-3d8ed507a7d8",
+     "f936b5ae-0b40-566a-a2ee-151a99e043b2",
+     "fd9c5ca7-1950-589b-a562-efb67bf1a9e6"
+    ]
+   }
+  },
+  {
+   "step": 2,
+   "store": "PostgreSQL",
+   "action": "attendance JOIN schedule по 17 лекциям за 2026-02-09…2026-04-19, week_start_date ≥ 2026-02-09",
+   "result": "занятий: 24, отметок: 462, студентов: 77, недельных партиций в периоде: 10; отобрано 10 с минимальной посещаемостью",
+   "ms": 41.1,
+   "details": [
+    {
+     "student_id": "15fb84fc-403b-587a-b599-62dc5046fefd",
+     "total": 6,
+     "attended": 1,
+     "attendance_pct": 16.7,
+     "term_courses": [
+      "Проектирование архитектуры ПО"
+     ]
+    },
+    {
+     "student_id": "ce70cc35-e23c-5f8b-b392-58a9e4e31976",
+     "total": 6,
+     "attended": 1,
+     "attendance_pct": 16.7,
+     "term_courses": [
+      "Проектирование архитектуры ПО"
+     ]
+    },
+    {
+     "student_id": "e0d12cea-0d8e-5e8f-84cd-4797a899defb",
+     "total": 6,
+     "attended": 1,
+     "attendance_pct": 16.7,
+     "term_courses": [
+      "Проектирование архитектуры ПО"
+     ]
+    },
+    {
+     "student_id": "6ff80fad-d228-58a1-9caa-1fc50d05b061",
+     "total": 6,
+     "attended": 2,
+     "attendance_pct": 33.3,
+     "term_courses": [
+      "Проектирование архитектуры ПО"
+     ]
+    },
+    {
+     "student_id": "712d0d3e-0d64-505c-85c0-53d7d59dfbc0",
+     "total": 6,
+     "attended": 2,
+     "attendance_pct": 33.3,
+     "term_courses": [
+      "Проектирование архитектуры ПО"
+     ]
+    },
+    {
+     "student_id": "cf657c16-77ac-5c4d-800a-ebc04526d32e",
+     "total": 6,
+     "attended": 2,
+     "attendance_pct": 33.3,
+     "term_courses": [
+      "Проектирование архитектуры ПО"
+     ]
+    },
+    {
+     "student_id": "e4e6ac03-20fb-51e9-a458-66a7a95de209",
+     "total": 6,
+     "attended": 2,
+     "attendance_pct": 33.3,
+     "term_courses": [
+      "Проектирование архитектуры ПО"
+     ]
+    },
+    {
+     "student_id": "0a07e916-3f5d-5c95-8d56-cc2ee53321a2",
+     "total": 6,
+     "attended": 3,
+     "attendance_pct": 50.0,
+     "term_courses": [
+      "Проектирование архитектуры ПО"
+     ]
+    },
+    {
+     "student_id": "18c45a4f-9817-5fbb-b67f-fc1ded545cf0",
+     "total": 6,
+     "attended": 3,
+     "attendance_pct": 50.0,
+     "term_courses": [
+      "Проектирование архитектуры ПО"
+     ]
+    },
+    {
+     "student_id": "303c982c-80c4-5c66-97b8-eaa77e4028ff",
+     "total": 6,
+     "attended": 3,
+     "attendance_pct": 50.0,
+     "term_courses": [
+      "Проектирование архитектуры ПО"
+     ]
+    }
+   ]
+  },
+  {
+   "step": 3,
+   "store": "Redis",
+   "action": "HGETALL student:{id} для 10 студентов (cache-aside, TTL 2 ч)",
+   "result": "из кэша: 10, промахов: 0",
+   "ms": 1.1
+  },
+  {
+   "step": 4,
+   "store": "Сервис ЛР №1",
+   "action": "сборка отчёта",
+   "result": "в отчёте 10 студентов",
+   "ms": 0.1
+  }
+ ],
+ "requested_by": "teacher"
+}

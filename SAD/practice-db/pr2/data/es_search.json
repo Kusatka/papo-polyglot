@@ -1,0 +1,16 @@
+{
+  "_source": [
+    "name",
+    "is_elective"
+  ],
+  "query": {
+    "match": {
+      "description": "партиционированием таблиц"
+    }
+  },
+  "highlight": {
+    "fields": {
+      "description": {}
+    }
+  }
+}

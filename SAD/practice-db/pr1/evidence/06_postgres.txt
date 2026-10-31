@@ -1,0 +1,87 @@
+==== PostgreSQL ====
+Дата проверки: 2026-10-17 01:22:45
+
+$ docker exec practice01-postgres pg_isready -U admin -d practice_db
+/var/run/postgresql:5432 - accepting connections
+
+$ docker exec practice01-postgres psql -U admin -d practice_db -c SELECT version();
+                                         version                                          
+------------------------------------------------------------------------------------------
+ PostgreSQL 16.15 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+(1 row)
+
+
+-- место хранения данных и журнала:
+$ docker exec practice01-postgres psql -U admin -d practice_db -c SELECT name, setting FROM pg_settings WHERE name IN ('data_directory','logging_collector','log_directory','log_filename','log_rotation_size','log_statement') ORDER BY name;
+       name        |             setting             
+-------------------+---------------------------------
+ data_directory    | /var/lib/postgresql/data/pgdata
+ log_directory     | /var/log/postgresql
+ log_filename      | postgresql-%Y-%m-%d.log
+ log_rotation_size | 10240
+ log_statement     | all
+ logging_collector | on
+(6 rows)
+
+
+-- базовые операции:
+$ docker exec practice01-postgres psql -U admin -d practice_db -c DROP TABLE IF EXISTS pr1_students; CREATE TABLE pr1_students (id SERIAL PRIMARY KEY, last_name VARCHAR(50) NOT NULL, first_name VARCHAR(50) NOT NULL, grp VARCHAR(20));
+DROP TABLE
+CREATE TABLE
+
+$ docker exec practice01-postgres psql -U admin -d practice_db -c INSERT INTO pr1_students (last_name, first_name, grp) VALUES ('Иванов','Иван','ИКБО-01-22'), ('Петрова','Мария','ИКБО-02-22'), ('Сидоров','Алексей','ИКБО-01-22');
+INSERT 0 3
+
+$ docker exec practice01-postgres psql -U admin -d practice_db -c SELECT * FROM pr1_students ORDER BY id;
+ id | last_name | first_name |    grp     
+----+-----------+------------+------------
+  1 | Иванов    | Иван       | ИКБО-01-22
+  2 | Петрова   | Мария      | ИКБО-02-22
+  3 | Сидоров   | Алексей    | ИКБО-01-22
+(3 rows)
+
+
+$ docker exec practice01-postgres ls -la /var/lib/postgresql/data/pgdata /var/log/postgresql
+/var/lib/postgresql/data/pgdata:
+total 140
+drwx------   19 postgres root          4096 Oct 16 22:08 .
+drwxrwxrwt    3 postgres postgres      4096 Oct 16 22:08 ..
+-rw-------    1 postgres postgres         3 Oct 16 22:08 PG_VERSION
+drwx------    6 postgres postgres      4096 Oct 16 22:08 base
+-rw-------    1 postgres postgres        53 Oct 16 22:08 current_logfiles
+drwx------    2 postgres postgres      4096 Oct 16 22:09 global
+drwx------    2 postgres postgres      4096 Oct 16 22:08 pg_commit_ts
+drwx------    2 postgres postgres      4096 Oct 16 22:08 pg_dynshmem
+-rw-------    1 postgres postgres      5743 Oct 16 22:08 pg_hba.conf
+-rw-------    1 postgres postgres      2640 Oct 16 22:08 pg_ident.conf
+drwx------    4 postgres postgres      4096 Oct 16 22:18 pg_logical
+drwx------    4 postgres postgres      4096 Oct 16 22:08 pg_multixact
+drwx------    2 postgres postgres      4096 Oct 16 22:08 pg_notify
+drwx------    2 postgres postgres      4096 Oct 16 22:08 pg_replslot
+drwx------    2 postgres postgres      4096 Oct 16 22:08 pg_serial
+drwx------    2 postgres postgres      4096 Oct 16 22:08 pg_snapshots
+drwx------    2 postgres postgres      4096 Oct 16 22:08 pg_stat
+drwx------    2 postgres postgres      4096 Oct 16 22:08 pg_stat_tmp
+drwx------    2 postgres postgres      4096 Oct 16 22:08 pg_subtrans
+drwx------    2 postgres postgres      4096 Oct 16 22:08 pg_tblspc
+drwx------    2 postgres postgres      4096 Oct 16 22:08 pg_twophase
+drwx------    3 postgres postgres      4096 Oct 16 22:08 pg_wal
+drwx------    2 postgres postgres      4096 Oct 16 22:08 pg_xact
+-rw-------    1 postgres postgres        88 Oct 16 22:08 postgresql.auto.conf
+-rw-------    1 postgres postgres     29929 Oct 16 22:08 postgresql.conf
+-rw-------    1 postgres postgres       431 Oct 16 22:08 postmaster.opts
+-rw-------    1 postgres postgres       101 Oct 16 22:08 postmaster.pid
+
+/var/log/postgresql:
+total 132
+drwxrwxrwx    1 root     root           512 Oct 16 22:08 .
+drwxr-xr-x    1 root     root          4096 Oct 16 22:08 ..
+-rw-------    1 postgres postgres     42436 Oct 16 22:22 postgresql-2026-10-17.log
+
+$ docker exec practice01-postgres sh -c 'tail -n 5 /var/log/postgresql/*.log'
+2026-10-17 01:22:47.178 MSK [791] admin@practice_db LOG:  disconnection: session time: 0:00:00.006 user=admin database=practice_db host=[local]
+2026-10-17 01:22:47.449 MSK [798] [unknown]@[unknown] LOG:  connection received: host=[local]
+2026-10-17 01:22:47.450 MSK [798] admin@practice_db LOG:  connection authorized: user=admin database=practice_db application_name=psql
+2026-10-17 01:22:47.452 MSK [798] admin@practice_db LOG:  statement: SELECT * FROM pr1_students ORDER BY id;
+2026-10-17 01:22:47.454 MSK [798] admin@practice_db LOG:  disconnection: session time: 0:00:00.005 user=admin database=practice_db host=[local]
+

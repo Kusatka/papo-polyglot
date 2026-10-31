@@ -1,0 +1,72 @@
+<!doctype html><html><head><meta charset="utf-8"><title>C4 контейнеры</title><style>body{margin:0;background:#fff}</style></head><body><svg xmlns="http://www.w3.org/2000/svg" width="1640" height="960" viewBox="0 0 1640 960" font-family="'Segoe UI', Arial, sans-serif"><defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker></defs><rect width="100%" height="100%" fill="#fff"/><text x="820" y="26.0" font-size="19" fill="#000" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">C4, уровень 2 — контейнеры (ЛР №1)</text>
+<rect x="35.0" y="145.0" width="250" height="170" rx="12" fill="#08427B" stroke="#0b3d6e" stroke-width="1.5"/>
+<circle cx="160" cy="111.0" r="32" fill="#08427B" stroke="#0b3d6e" stroke-width="1.5"/>
+<text x="160" y="186.5" font-size="17" fill="#fff" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">Пользователь API</text>
+<text x="160" y="209.5" font-size="13" fill="#e8f0fa" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="font-style:italic;">[Person]</text>
+<text x="160" y="236.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">преподаватель (teacher)</text>
+<text x="160" y="255.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">или студент (student);</text>
+<text x="160" y="274.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Swagger UI, curl, PowerShell</text>
+<rect x="420" y="60" width="540" height="820" rx="6" fill="none" stroke="#666" stroke-width="1.5" stroke-dasharray="10 6"/>
+<text x="434" y="846.0" font-size="15" fill="#333" font-weight="bold" text-anchor="start" dominant-baseline="middle" style="">Аналитическая система кафедры</text>
+<text x="434" y="866.0" font-size="13" fill="#555" font-weight="normal" text-anchor="start" dominant-baseline="middle" style="font-style:italic;">[Software System; docker compose, проект lab1]</text>
+<rect x="445.0" y="105.0" width="470" height="250" rx="12" fill="#438DD5" stroke="#0b3d6e" stroke-width="1.5"/>
+<text x="680" y="167.5" font-size="17" fill="#fff" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">API Gateway</text>
+<text x="680" y="190.5" font-size="13" fill="#e8f0fa" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="font-style:italic;">[Container: Python 3.12, FastAPI, uvicorn; api-gateway :8000]</text>
+<text x="680" y="217.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">POST /auth/login — проверка пароля (PBKDF2)</text>
+<text x="680" y="236.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">и выдача JWT (HS256, 60 мин);</text>
+<text x="680" y="255.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">проверка JWT на каждом вызове;</text>
+<text x="680" y="274.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">GET /api/lab1/report — маршрутизация</text>
+<text x="680" y="293.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">в сервис ЛР №1; Swagger UI /docs</text>
+<rect x="445.0" y="485.0" width="470" height="250" rx="12" fill="#438DD5" stroke="#0b3d6e" stroke-width="1.5"/>
+<text x="680" y="547.5" font-size="17" fill="#fff" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">Сервис ЛР №1</text>
+<text x="680" y="570.5" font-size="13" fill="#e8f0fa" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="font-style:italic;">[Container: Python 3.12, FastAPI; lab1-service :8001]</text>
+<text x="680" y="597.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">GET /report — отчёт о 10 студентах</text>
+<text x="680" y="616.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">с минимальной посещаемостью лекций,</text>
+<text x="680" y="635.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">содержащих термин, за период;</text>
+<text x="680" y="654.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">повторная проверка JWT; порт наружу</text>
+<text x="680" y="673.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">не опубликован (только сеть Docker)</text>
+<rect x="1050" y="60" width="560" height="860" rx="6" fill="none" stroke="#666" stroke-width="1.5" stroke-dasharray="10 6"/>
+<text x="1064" y="886.0" font-size="15" fill="#333" font-weight="bold" text-anchor="start" dominant-baseline="middle" style="">Стенд хранилищ ПР №1 (структура ПР №3)</text>
+<text x="1064" y="906.0" font-size="13" fill="#555" font-weight="normal" text-anchor="start" dominant-baseline="middle" style="font-style:italic;">[сеть Docker practice01_default]</text>
+<path d="M1120.0,119.0 A210.0,14 0 0 1 1540.0,119.0 V281.0 A210.0,14 0 0 1 1120.0,281.0 Z" fill="#438DD5" stroke="#2e6295" stroke-width="1.5"/>
+<path d="M1120.0,119.0 A210.0,14 0 0 0 1540.0,119.0" fill="none" stroke="#2e6295" stroke-width="1.5"/>
+<text x="1330" y="164.5" font-size="17" fill="#fff" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">Elasticsearch 8.16</text>
+<text x="1330" y="187.5" font-size="13" fill="#e8f0fa" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="font-style:italic;">[ContainerDb: индекс lectures]</text>
+<text x="1330" y="214.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">title, annotation, content_text,</text>
+<text x="1330" y="233.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">анализатор russian_custom</text>
+<text x="1330" y="252.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">(словоформы), lecture_type</text>
+<path d="M1120.0,364.0 A210.0,14 0 0 1 1540.0,364.0 V536.0 A210.0,14 0 0 1 1120.0,536.0 Z" fill="#438DD5" stroke="#2e6295" stroke-width="1.5"/>
+<path d="M1120.0,364.0 A210.0,14 0 0 0 1540.0,364.0" fill="none" stroke="#2e6295" stroke-width="1.5"/>
+<text x="1330" y="414.5" font-size="17" fill="#fff" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">PostgreSQL 16</text>
+<text x="1330" y="437.5" font-size="13" fill="#e8f0fa" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="font-style:italic;">[ContainerDb: university_system]</text>
+<text x="1330" y="464.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">attendance — 20 недельных партиций</text>
+<text x="1330" y="483.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">+ default; schedule, lectures,</text>
+<text x="1330" y="502.5" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">students, student_groups, specialties</text>
+<path d="M1120.0,619.0 A210.0,14 0 0 1 1540.0,619.0 V761.0 A210.0,14 0 0 1 1120.0,761.0 Z" fill="#438DD5" stroke="#2e6295" stroke-width="1.5"/>
+<path d="M1120.0,619.0 A210.0,14 0 0 0 1540.0,619.0" fill="none" stroke="#2e6295" stroke-width="1.5"/>
+<text x="1330" y="664.0" font-size="17" fill="#fff" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">Redis 7, база 2</text>
+<text x="1330" y="687.0" font-size="13" fill="#e8f0fa" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="font-style:italic;">[ContainerDb: кэш ключ-значение]</text>
+<text x="1330" y="714.0" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">хеши student:{id} — карточка</text>
+<text x="1330" y="733.0" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">студента, TTL 7200 с</text>
+<text x="1330" y="822.0" font-size="14" fill="#555" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="font-style:italic;">MongoDB и Neo4j в выборке ЛР №1 не участвуют</text>
+<polyline points="285.0,215.0 445.0,215.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="352" y="132.7" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">вход, вызов</text>
+<text x="352" y="150.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">отчёта [HTTP</text>
+<text x="352" y="169.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">:8000, JSON,</text>
+<text x="352" y="187.3" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">Bearer JWT]</text>
+<polyline points="445.0,265.0 285.0,265.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="352" y="290.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">JWT, отчёт</text>
+<text x="352" y="309.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">JSON, 401/422</text>
+<polyline points="680.0,355.0 680.0,485.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="680" y="410.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">GET /report с тем же JWT</text>
+<text x="680" y="429.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">[HTTP :8001, внутри сети Docker]</text>
+<polyline points="915.0,560.0 1120.0,220.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="1000" y="320.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">1. фраза → id лекций</text>
+<text x="1000" y="339.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">[HTTP, Query DSL]</text>
+<polyline points="915.0,610.0 1120.0,470.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="1050" y="533.8" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">2. агрегат посещаемости;</text>
+<text x="1050" y="552.0" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">3а. карточки при промахе</text>
+<text x="1050" y="570.2" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">[SQL, psycopg]</text>
+<polyline points="915.0,660.0 1120.0,690.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="1010" y="702.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">3. HGETALL / HSET+EXPIRE</text>
+<text x="1010" y="721.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">[RESP]</text></svg></body></html>

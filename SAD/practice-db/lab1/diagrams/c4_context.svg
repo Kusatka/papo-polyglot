@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="450" viewBox="0 0 1500 450" font-family="'Segoe UI', Arial, sans-serif"><defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker></defs><rect width="100%" height="100%" fill="#fff"/><text x="750" y="26.0" font-size="19" fill="#000" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">C4, уровень 1 — контекст системы (ЛР №1)</text>
+<rect x="30.0" y="165.0" width="270" height="190" rx="12" fill="#08427B" stroke="#0b3d6e" stroke-width="1.5"/>
+<circle cx="165" cy="131.0" r="32" fill="#08427B" stroke="#0b3d6e" stroke-width="1.5"/>
+<text x="165" y="207.0" font-size="17" fill="#fff" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">Пользователь API</text>
+<text x="165" y="230.0" font-size="13" fill="#e8f0fa" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="font-style:italic;">[Person]</text>
+<text x="165" y="257.0" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">преподаватель, сотрудник</text>
+<text x="165" y="276.0" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">кафедры (роли teacher,</text>
+<text x="165" y="295.0" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">student); Swagger UI, curl,</text>
+<text x="165" y="314.0" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">PowerShell</text>
+<rect x="565.0" y="155.0" width="370" height="210" rx="12" fill="#1168BD" stroke="#0b3d6e" stroke-width="1.5"/>
+<text x="750" y="207.0" font-size="17" fill="#fff" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">Аналитическая система кафедры</text>
+<text x="750" y="230.0" font-size="13" fill="#e8f0fa" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="font-style:italic;">[Software System]</text>
+<text x="750" y="257.0" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">API Gateway с JWT-аутентификацией</text>
+<text x="750" y="276.0" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">и сервисы лабораторных работ;</text>
+<text x="750" y="295.0" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">ЛР №1 — 10 студентов с минимальной</text>
+<text x="750" y="314.0" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">посещаемостью лекций с термином</text>
+<rect x="1155.0" y="155.0" width="330" height="210" rx="12" fill="#8C8C8C" stroke="#0b3d6e" stroke-width="1.5"/>
+<text x="1320" y="207.0" font-size="17" fill="#fff" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">Хранилища данных кафедры</text>
+<text x="1320" y="230.0" font-size="13" fill="#e8f0fa" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="font-style:italic;">[Software System, внешняя]</text>
+<text x="1320" y="257.0" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">стенд ПР №1 со структурой ПР №3:</text>
+<text x="1320" y="276.0" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">PostgreSQL, Elasticsearch, Redis,</text>
+<text x="1320" y="295.0" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">MongoDB, Neo4j (сеть Docker</text>
+<text x="1320" y="314.0" font-size="14" fill="#fff" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">practice01_default)</text>
+<polyline points="300.0,235.0 565.0,235.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="432" y="166.8" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">Получает JWT,</text>
+<text x="432" y="185.0" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">запрашивает отчёт</text>
+<text x="432" y="203.2" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">[HTTP, JSON]</text>
+<polyline points="565.0,290.0 300.0,290.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="432" y="321.8" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">Отчёт: студенты,</text>
+<text x="432" y="340.0" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">% посещения, период,</text>
+<text x="432" y="358.2" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">термин в курсах</text>
+<polyline points="935.0,260.0 1155.0,260.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="1045" y="164.7" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">Читает лекции,</text>
+<text x="1045" y="182.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">посещаемость,</text>
+<text x="1045" y="201.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">карточки студентов</text>
+<text x="1045" y="219.3" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="" stroke="#fff" stroke-width="5" paint-order="stroke" stroke-linejoin="round">[HTTP, SQL, RESP]</text></svg>

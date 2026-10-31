@@ -1,0 +1,29 @@
+# ПР №1, самостоятельное задание 2: PostgreSQL со скриптами инициализации из ./initdb.
+# Отдельный экземпляр с пустым томом: у основного стенда том уже инициализирован, и скрипты
+# /docker-entrypoint-initdb.d на нём не выполнятся.
+#   docker compose -f selfwork/docker-compose.initdb.yml up -d --wait
+#   docker compose -f selfwork/docker-compose.initdb.yml down -v      (удалить вместе с томом)
+name: practice01-initdb
+
+services:
+  postgres-init:
+    image: postgres:16-alpine
+    container_name: practice01-postgres-init
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: initdb_demo
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+      - initdb_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d initdb_demo"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    mem_limit: 256m
+
+volumes:
+  initdb_data:

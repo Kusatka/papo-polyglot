@@ -1,0 +1,9 @@
+{
+  "size": 0,
+  "aggs": {
+    "by_type": {
+      "terms": { "field": "lecture_type" },
+      "aggs": { "by_specialty": { "terms": { "field": "specialty_code" } } }
+    }
+  }
+}

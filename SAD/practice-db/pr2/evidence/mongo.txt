@@ -1,0 +1,98 @@
+==== ПР №2: mongo, 2026-10-17 02:30:33 ====
+
+==== 1. Создание хранилища: база university, коллекция student_groups с проверкой схемы ====
+test> switched to db university
+university> true
+university> [ 'name', 'enrollment_year', 'specialty', 'students' ]
+university> 
+==== 2. Добавление документов групп ====
+test> switched to db university
+university> true
+university> 2
+university> 
+==== 3. Чтение по ключу (название группы) ====
+test> switched to db university
+university> {
+  _id: '18216887-5128-552b-8269-fed53ee98175',
+  name: 'БСБО-01-23',
+  curator: 'Комарова Е.В.',
+  specialty: {
+    code: '38.03.05',
+    name: 'Бизнес-информатика',
+    degree_level: 'bachelor'
+  },
+  students_count: 25,
+  students: [
+    {
+      id: '0abd7fcf-8a20-5394-b4b3-e3fc647063ab',
+      student_card_number: '23Б0101',
+      last_name: 'Судовский',
+      first_name: 'Андрей',
+      patronymic: 'Леонидович',
+      email: '23b0101@edu.mirea.ru',
+      status: 'active',
+      electives: [ 'Бизнес-аналитика' ]
+    },
+    {
+      id: '83f000d3-69ce-5d1e-a5bc-27320e1747a4',
+      student_card_number: '23Б0102',
+      last_name: 'Беляев',
+      first_name: 'Даниил',
+      patronymic: 'Михайлович',
+      email: '23b0102@edu.mirea.ru',
+      status: 'active',
+      electives: [ 'NoSQL и полиглотное хранение' ]
+    }
+  ]
+}
+university> 
+==== 4. Изменение: куратор, новый студент, статус студента ====
+test> switched to db university
+university> {
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+university> {
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+university> {
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+university> [
+  {
+    curator: 'Беляев А.Н.',
+    students_count: 26,
+    size: 26,
+    leave: [ { student_card_number: '23Б0102' } ]
+  }
+]
+university> 
+==== 5. Удаление: студент из состава и документ группы БСБО-02-23 ====
+test> switched to db university
+university> {
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+university> { acknowledged: true, deletedCount: 1 }
+university> [ { name: 'БСБО-01-23', students_count: 25 } ]
+university> 
+==== 6. Удаление хранилища ====
+test> switched to db university
+university> true
+university> { ok: 1, dropped: 'university' }
+university> [ 'admin', 'config', 'local', 'practice_db' ]
+university> 

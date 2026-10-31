@@ -1,0 +1,66 @@
+==== Журналы (лог-записи) ====
+Дата проверки: 2026-10-17 01:22:51
+
+-- драйвер журналов контейнеров (stdout/stderr) и ротация:
+$ docker inspect practice01-redis --format '{{.Name}}  driver={{.HostConfig.LogConfig.Type}}  opts={{json .HostConfig.LogConfig.Config}}'
+/practice01-redis  driver=json-file  opts={"max-file":"3","max-size":"10m"}
+
+$ docker inspect practice01-mongodb --format '{{.Name}}  driver={{.HostConfig.LogConfig.Type}}  opts={{json .HostConfig.LogConfig.Config}}'
+/practice01-mongodb  driver=json-file  opts={"max-file":"3","max-size":"10m"}
+
+$ docker inspect practice01-neo4j --format '{{.Name}}  driver={{.HostConfig.LogConfig.Type}}  opts={{json .HostConfig.LogConfig.Config}}'
+/practice01-neo4j  driver=json-file  opts={"max-file":"3","max-size":"10m"}
+
+$ docker inspect practice01-elasticsearch --format '{{.Name}}  driver={{.HostConfig.LogConfig.Type}}  opts={{json .HostConfig.LogConfig.Config}}'
+/practice01-elasticsearch  driver=json-file  opts={"max-file":"3","max-size":"10m"}
+
+$ docker inspect practice01-postgres --format '{{.Name}}  driver={{.HostConfig.LogConfig.Type}}  opts={{json .HostConfig.LogConfig.Config}}'
+/practice01-postgres  driver=json-file  opts={"max-file":"3","max-size":"10m"}
+
+-- файлы журналов СУБД на хосте (каталог logs):
+$ ls -la logs/*
+logs/elasticsearch:
+total 712
+drwxr-xr-x 1 sudov 197609      0 Oct 17 01:18 .
+drwxr-xr-x 1 sudov 197609      0 Oct 17 01:04 ..
+-rw-r--r-- 1 sudov 197609  76852 Oct 17 01:20 gc.log
+-rw-r--r-- 1 sudov 197609   2354 Oct 17 01:10 gc.log.00
+-rw-r--r-- 1 sudov 197609   2354 Oct 17 01:10 gc.log.01
+-rw-r--r-- 1 sudov 197609  84815 Oct 17 01:17 gc.log.02
+-rw-r--r-- 1 sudov 197609   2354 Oct 17 01:17 gc.log.03
+-rw-r--r-- 1 sudov 197609   2354 Oct 17 01:17 gc.log.04
+-rw-r--r-- 1 sudov 197609 116584 Oct 17 01:22 practice-cluster.log
+-rw-r--r-- 1 sudov 197609      0 Oct 17 01:10 practice-cluster_audit.json
+-rw-r--r-- 1 sudov 197609      0 Oct 17 01:10 practice-cluster_deprecation.json
+-rw-r--r-- 1 sudov 197609      0 Oct 17 01:10 practice-cluster_index_indexing_slowlog.json
+-rw-r--r-- 1 sudov 197609      0 Oct 17 01:10 practice-cluster_index_search_slowlog.json
+-rw-r--r-- 1 sudov 197609 345657 Oct 17 01:22 practice-cluster_server.json
+
+logs/mongodb:
+total 576
+drwxr-xr-x 1 sudov 197609      0 Oct 17 01:08 .
+drwxr-xr-x 1 sudov 197609      0 Oct 17 01:04 ..
+-rw-r--r-- 1 sudov 197609 570470 Oct 17 01:22 mongod.log
+
+logs/neo4j:
+total 388
+drwxr-xr-x 1 sudov 197609      0 Oct 17 01:09 .
+drwxr-xr-x 1 sudov 197609      0 Oct 17 01:04 ..
+-rw-r--r-- 1 sudov 197609 178704 Oct 17 01:21 debug.log
+-rw-r--r-- 1 sudov 197609      0 Oct 17 01:09 http.log
+-rw-r--r-- 1 sudov 197609   1985 Oct 17 01:21 neo4j.log
+-rw-r--r-- 1 sudov 197609      0 Oct 17 01:09 query.log
+-rw-r--r-- 1 sudov 197609      0 Oct 17 01:09 security.log
+
+logs/postgres:
+total 128
+drwxr-xr-x 1 sudov 197609     0 Oct 17 01:08 .
+drwxr-xr-x 1 sudov 197609     0 Oct 17 01:04 ..
+-rw-r--r-- 1 sudov 197609 42815 Oct 17 01:22 postgresql-2026-10-17.log
+
+logs/redis:
+total 8
+drwxr-xr-x 1 sudov 197609    0 Oct 17 01:08 .
+drwxr-xr-x 1 sudov 197609    0 Oct 17 01:04 ..
+-rw-r--r-- 1 sudov 197609 5080 Oct 17 01:22 redis.log
+

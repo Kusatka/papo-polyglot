@@ -1,0 +1,69 @@
+==== ПР №2: redis, 2026-10-17 02:30:30 ====
+
+==== 1. Создание хранилища: логическая база Redis №1 (SELECT 1), проверка, что она пуста ====
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning -n 1 --raw DBSIZE
+0
+
+
+==== 2. Добавление: 25 хешей, ключ = номер зачётной книжки (redis-cli --pipe) ====
+$ docker exec practice01-redis sh -c redis-cli -a mypassword --no-auth-warning -n 1 --pipe < /tmp/redis_students.resp
+All data transferred. Waiting for the last reply...
+Last reply received from server.
+errors: 0, replies: 25
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning -n 1 --raw DBSIZE
+25
+
+
+==== 3. Чтение по ключу ====
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning -n 1 --raw HGETALL 23Б0101
+id
+0abd7fcf-8a20-5394-b4b3-e3fc647063ab
+last_name
+Судовский
+first_name
+Андрей
+patronymic
+Леонидович
+group
+БСБО-01-23
+email
+23b0101@edu.mirea.ru
+phone
++7 925 427-74-75
+enrollment_date
+2023-09-01
+status
+active
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning -n 1 --raw HGET 23Б0102 email
+23b0102@edu.mirea.ru
+
+
+==== 4. Изменение ====
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning -n 1 --raw HSET 23Б0101 phone +7 916 555-01-01 status academic_leave
+0
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning -n 1 --raw HMGET 23Б0101 phone status
++7 916 555-01-01
+academic_leave
+
+
+==== 5. Удаление записи ====
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning -n 1 --raw DEL 23Б0125
+1
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning -n 1 --raw EXISTS 23Б0125
+0
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning -n 1 --raw DBSIZE
+24
+
+
+==== 6. Удаление хранилища ====
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning -n 1 --raw FLUSHDB
+OK
+
+$ docker exec practice01-redis redis-cli -a mypassword --no-auth-warning -n 1 --raw DBSIZE
+0
+

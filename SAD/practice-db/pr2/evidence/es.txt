@@ -1,0 +1,166 @@
+==== ПР №2: es, 2026-10-17 02:31:15 ====
+
+==== 1. Создание хранилища: индекс lecture_courses с русским анализатором ====
+$ curl -X PUT http://localhost:9200/lecture_courses?pretty --data-binary @data/es_mapping.json
+{
+  "acknowledged" : true,
+  "shards_acknowledged" : true,
+  "index" : "lecture_courses"
+}
+
+
+
+==== 2. Добавление документов (Bulk API) ====
+$ curl -X POST http://localhost:9200/_bulk?refresh=true --data-binary @data/es_courses.ndjson
+{"errors":false,"items":[{"index":{"result":"created"}},{"index":{"result":"created"}},{"index":{"result":"created"}},{"index":{"result":"created"}},{"index":{"result":"created"}},{"index":{"result":"created"}},{"index":{"result":"created"}}]}
+
+$ curl -X GET http://localhost:9200/lecture_courses/_count?pretty 
+{
+  "count" : 7,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  }
+}
+
+
+
+==== 3. Чтение по ключу и полнотекстовый поиск ====
+$ curl -X GET http://localhost:9200/lecture_courses/_doc/7c6ff099-7f7e-5949-9b0e-47d6eaeb925f?pretty&_source=name,total_hours,tags 
+{
+  "_index" : "lecture_courses",
+  "_id" : "7c6ff099-7f7e-5949-9b0e-47d6eaeb925f",
+  "_version" : 1,
+  "_seq_no" : 5,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : {
+    "name" : "NoSQL и полиглотное хранение",
+    "total_hours" : 72,
+    "tags" : [
+      "спецдисциплина кафедры",
+      "курс по выбору"
+    ]
+  }
+}
+
+
+$ curl -X GET http://localhost:9200/lecture_courses/_search?pretty --data-binary @data/es_search.json
+{
+  "took" : 3,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 3.1656861,
+    "hits" : [
+      {
+        "_index" : "lecture_courses",
+        "_id" : "2853dadd-f264-587f-9556-ac6b8eb35d47",
+        "_score" : 3.1656861,
+        "_source" : {
+          "name" : "Большие данные и потоковая обработка",
+          "is_elective" : false
+        },
+        "highlight" : {
+          "description" : [
+            "потоковая обработка больших данных, брокер сообщений Kafka, захват изменений данных (CDC) и <em>партиционирование</em>",
+            "<em>таблиц</em> и топиков."
+          ]
+        }
+      }
+    ]
+  }
+}
+
+
+
+==== 4. Изменение документа ====
+$ curl -X POST http://localhost:9200/lecture_courses/_update/7c6ff099-7f7e-5949-9b0e-47d6eaeb925f?pretty&refresh=true --data-binary @data/es_update.json
+{
+  "_index" : "lecture_courses",
+  "_id" : "7c6ff099-7f7e-5949-9b0e-47d6eaeb925f",
+  "_version" : 2,
+  "result" : "updated",
+  "forced_refresh" : true,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 7,
+  "_primary_term" : 1
+}
+
+
+$ curl -X GET http://localhost:9200/lecture_courses/_doc/7c6ff099-7f7e-5949-9b0e-47d6eaeb925f?pretty&_source=name,total_hours,tags 
+{
+  "_index" : "lecture_courses",
+  "_id" : "7c6ff099-7f7e-5949-9b0e-47d6eaeb925f",
+  "_version" : 2,
+  "_seq_no" : 7,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : {
+    "name" : "NoSQL и полиглотное хранение",
+    "total_hours" : 90,
+    "tags" : [
+      "курс по выбору",
+      "обновлено"
+    ]
+  }
+}
+
+
+
+==== 5. Удаление документа ====
+$ curl -X DELETE http://localhost:9200/lecture_courses/_doc/7c6ff099-7f7e-5949-9b0e-47d6eaeb925f?pretty&refresh=true 
+{
+  "_index" : "lecture_courses",
+  "_id" : "7c6ff099-7f7e-5949-9b0e-47d6eaeb925f",
+  "_version" : 3,
+  "result" : "deleted",
+  "forced_refresh" : true,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 8,
+  "_primary_term" : 1
+}
+
+
+$ curl -X GET http://localhost:9200/lecture_courses/_count?pretty 
+{
+  "count" : 6,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  }
+}
+
+
+
+==== 6. Удаление хранилища ====
+$ curl -X DELETE http://localhost:9200/lecture_courses?pretty 
+{
+  "acknowledged" : true
+}
+
+
+$ curl -X GET http://localhost:9200/_cat/indices/lecture_courses?v 
+{"error":{"root_cause":[{"type":"index_not_found_exception","reason":"no such index [lecture_courses]","resource.type":"index_or_alias","resource.id":"lecture_courses","index_uuid":"_na_","index":"lecture_courses"}],"type":"index_not_found_exception","reason":"no such index [lecture_courses]","resource.type":"index_or_alias","resource.id":"lecture_courses","index_uuid":"_na_","index":"lecture_courses"},"status":404}
+

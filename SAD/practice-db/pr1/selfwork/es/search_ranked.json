@@ -1,0 +1,11 @@
+{
+  "size": 5,
+  "_source": ["title", "author", "year"],
+  "query": {
+    "multi_match": {
+      "query": "масштабируемые системы хранения данных",
+      "fields": ["title^2", "description"]
+    }
+  },
+  "highlight": {"fields": {"description": {"fragment_size": 90, "number_of_fragments": 1}}}
+}

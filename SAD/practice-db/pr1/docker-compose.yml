@@ -1,0 +1,259 @@
+# ПР №1. Развёртывание пяти СУБД в Docker: Redis, MongoDB, Neo4j, Elasticsearch, PostgreSQL
+# (+ веб-интерфейсы Redis Commander, Mongo Express, Neo4j Browser, Kibana, pgAdmin 4).
+#
+# Хранение:
+#   данные  -> именованные тома Docker (practice01_*_data), переживают удаление контейнеров;
+#   логи    -> 1) файлы самих СУБД в каталоге ./logs/<служба> на хосте (bind mount);
+#              2) stdout/stderr контейнеров -> драйвер json-file с ротацией 10 МБ x 3 файла.
+# Учётные данные берутся из файла .env рядом с этим файлом.
+
+name: practice01
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  # ---------------- Redis (key-value) ----------------
+  redis:
+    image: redis:7-alpine
+    container_name: practice01-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    # --appendonly yes / --save 60 1 -> персистентность AOF + RDB-снимок в /data
+    # --logfile -> журнал Redis в /var/log/redis (смонтирован на хост)
+    command: >
+      redis-server
+      --requirepass ${REDIS_PASSWORD}
+      --appendonly yes
+      --save 60 1
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      --loglevel notice
+      --logfile /var/log/redis/redis.log
+    volumes:
+      - redis_data:/data
+      - ./logs/redis:/var/log/redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "--no-auth-warning", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    mem_limit: 300m
+    logging: *default-logging
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: practice01-redis-commander
+    restart: unless-stopped
+    environment:
+      # db0 — данные ПР №1, db1 — студенты ПР №2 (ключ = номер зачётной книжки), db2 — кэш ПР №3
+      - REDIS_HOSTS=local:redis:6379:0:${REDIS_PASSWORD},pr2:redis:6379:1:${REDIS_PASSWORD},pr3:redis:6379:2:${REDIS_PASSWORD}
+    ports:
+      - "8081:8081"
+    depends_on:
+      redis:
+        condition: service_healthy
+    mem_limit: 256m
+    logging: *default-logging
+
+  # ---------------- MongoDB (документная) ----------------
+  mongodb:
+    image: mongo:7
+    container_name: practice01-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: practice_db
+    ports:
+      - "27017:27017"
+    # --wiredTigerCacheSizeGB 0.5 -> кеш движка не больше 0,5 ГБ
+    # --logpath/--logappend      -> журнал mongod в /var/log/mongodb (смонтирован на хост)
+    # --quiet                    -> не писать в журнал каждое подключение (иначе healthcheck
+    #                               раздувает файл, а ротации по размеру у mongod нет)
+    command:
+      - mongod
+      - --wiredTigerCacheSizeGB
+      - "0.5"
+      - --logpath
+      - /var/log/mongodb/mongod.log
+      - --logappend
+      - --quiet
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_config:/data/configdb
+      - ./logs/mongodb:/var/log/mongodb
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "-u", "${MONGO_USER}", "-p", "${MONGO_PASSWORD}",
+             "--authenticationDatabase", "admin", "--eval", "db.adminCommand('ping').ok"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    mem_limit: 1g
+    logging: *default-logging
+
+  mongo-express:
+    image: mongo-express:1-20-alpine3.19
+    container_name: practice01-mongo-express
+    restart: unless-stopped
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: ${ME_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_PASSWORD}
+    ports:
+      - "8082:8081"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    mem_limit: 256m
+    logging: *default-logging
+
+  # ---------------- Neo4j (графовая) ----------------
+  neo4j:
+    image: neo4j:5-community
+    container_name: practice01-neo4j
+    restart: unless-stopped
+    ports:
+      - "7474:7474"   # HTTP, Neo4j Browser
+      - "7687:7687"   # Bolt
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD}
+      NEO4J_server_memory_heap_initial__size: 256m
+      NEO4J_server_memory_heap_max__size: 512m
+      NEO4J_server_memory_pagecache_size: 256m
+    volumes:
+      - neo4j_data:/data
+      - ./logs/neo4j:/logs   # debug.log, query.log, http.log, security.log
+    # лёгкая HTTP-проверка: cypher-shell при каждом вызове поднимает отдельную JVM и грузит CPU
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:7474 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    mem_limit: 1200m
+    logging: *default-logging
+
+  # ---------------- Elasticsearch (полнотекстовый поиск) ----------------
+  elasticsearch:
+    image: elasticsearch:8.16.0
+    container_name: practice01-elasticsearch
+    restart: unless-stopped
+    environment:
+      - node.name=es-node-1
+      - cluster.name=practice-cluster
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - xpack.ml.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      # писать журналы в файлы каталога logs, а не только в консоль
+      - ES_LOG_STYLE=file
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+      - ./logs/elasticsearch:/usr/share/elasticsearch/logs
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:9200/_cluster/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    # heap 512 МБ + off-heap память JVM: при лимите 1 ГБ из методички контейнер работал у самого предела
+    mem_limit: 1536m
+    logging: *default-logging
+
+  kibana:
+    image: kibana:8.16.0
+    container_name: practice01-kibana
+    restart: unless-stopped
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    mem_limit: 1536m
+    logging: *default-logging
+
+  # ---------------- PostgreSQL (реляционная) ----------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: practice01-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "${POSTGRES_HOST_PORT}:5432"
+    # logging_collector=on -> журнал сервера пишется в файлы /var/log/postgresql (смонтирован на хост)
+    command: >
+      postgres
+      -c shared_buffers=128MB
+      -c max_connections=100
+      -c logging_collector=on
+      -c log_directory=/var/log/postgresql
+      -c log_filename=postgresql-%Y-%m-%d.log
+      -c log_rotation_age=1d
+      -c log_rotation_size=10MB
+      -c log_statement=all
+      -c log_connections=on
+      -c log_disconnections=on
+      -c log_line_prefix='%m [%p] %u@%d '
+      -c log_timezone=Europe/Moscow
+      -c timezone=Europe/Moscow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./logs/postgres:/var/log/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    mem_limit: 512m
+    logging: *default-logging
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: practice01-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
+    ports:
+      - "8083:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      # сервер "Practice PostgreSQL" регистрируется автоматически при первом запуске
+      - ./pgadmin/servers.json:/pgadmin4/servers.json:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    mem_limit: 512m
+    logging: *default-logging
+
+volumes:
+  redis_data:
+  mongodb_data:
+  mongodb_config:
+  neo4j_data:
+  es_data:
+  postgres_data:
+  pgadmin_data:

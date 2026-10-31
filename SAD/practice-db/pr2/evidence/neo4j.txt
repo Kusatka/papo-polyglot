@@ -1,0 +1,64 @@
+==== ПР №2: neo4j, 2026-10-17 02:35:54 ====
+
+==== 1. Создание хранилища: ограничения уникальности (схема графа) ====
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword --format plain MATCH (n {pr1: true}) DETACH DELETE n
+
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword --format plain -f /tmp/neo4j_schema.cypher
+
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword --format plain SHOW CONSTRAINTS YIELD name, labelsOrTypes, properties RETURN name, labelsOrTypes, properties
+name, labelsOrTypes, properties
+"course_id", ["LectureCourse"], ["id"]
+"group_name", ["Group"], ["name"]
+"student_card", ["Student"], ["student_card_number"]
+
+
+==== 2. Добавление узлов и связей ====
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword --format plain -f /tmp/neo4j_load.cypher
+
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword --format plain MATCH (n) RETURN labels(n)[0] AS label, count(*) AS cnt ORDER BY label
+label, cnt
+"Group", 2
+"LectureCourse", 7
+"Student", 31
+
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword --format plain MATCH ()-[r]->() RETURN type(r) AS rel, count(*) AS cnt ORDER BY rel
+rel, cnt
+"CHOSE", 39
+"MEMBER_OF", 31
+"STUDIES", 10
+
+
+==== 3. Чтение по ключу: курсы студента = обязательные курсы группы + его курсы по выбору ====
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword --format plain MATCH (s:Student {student_card_number: '23Б0101'})-[:MEMBER_OF]->(g:Group)-[:STUDIES]->(c:LectureCourse) RETURN s.last_name AS student, g.name AS grp, c.name AS course, 'обязательный' AS kind UNION MATCH (s:Student {student_card_number: '23Б0101'})-[:MEMBER_OF]->(g:Group), (s)-[:CHOSE]->(c:LectureCourse) RETURN s.last_name AS student, g.name AS grp, c.name AS course, 'по выбору' AS kind
+student, grp, course, kind
+"Судовский", "БСБО-01-23", "Хранилища данных и OLAP", "обязательный"
+"Судовский", "БСБО-01-23", "Информационная безопасность", "обязательный"
+"Судовский", "БСБО-01-23", "Распределённые системы", "обязательный"
+"Судовский", "БСБО-01-23", "Большие данные и потоковая обработка", "обязательный"
+"Судовский", "БСБО-01-23", "Проектирование архитектуры ПО", "обязательный"
+"Судовский", "БСБО-01-23", "Бизнес-аналитика", "по выбору"
+
+
+==== 4. Изменение: замена курса по выбору ====
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword --format plain MATCH (s:Student {student_card_number: '23Б0101'})-[r:CHOSE]->(:LectureCourse {name: 'Бизнес-аналитика'}) DELETE r WITH s MATCH (c:LectureCourse {name: 'NoSQL и полиглотное хранение'}) MERGE (s)-[:CHOSE]->(c) SET s.updated = date() RETURN s.last_name AS student, [(s)-[:CHOSE]->(x) | x.name] AS electives
+student, electives
+"Судовский", ["NoSQL и полиглотное хранение"]
+
+
+==== 5. Удаление записи: студент вместе со связями ====
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword --format plain MATCH (s:Student {student_card_number: '23Б0125'}) DETACH DELETE s
+
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword --format plain MATCH (g:Group {name: 'БСБО-01-23'})<-[:MEMBER_OF]-(s) RETURN g.name AS grp, count(s) AS students
+grp, students
+"БСБО-01-23", 24
+
+
+==== 6. Удаление хранилища: все узлы и связи, затем ограничения ====
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword --format plain MATCH (n) WHERE n:Group OR n:Student OR n:LectureCourse DETACH DELETE n
+
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword --format plain DROP CONSTRAINT group_name IF EXISTS; DROP CONSTRAINT student_card IF EXISTS; DROP CONSTRAINT course_id IF EXISTS
+
+$ docker exec practice01-neo4j cypher-shell -u neo4j -p mysecretpassword --format plain MATCH (n) WHERE n:Group OR n:Student OR n:LectureCourse RETURN count(n) AS left
+left
+0
+

@@ -1,0 +1,13 @@
+{
+  "size": 200,
+  "track_total_hits": true,
+  "_source": ["lecture_id", "specialty_code", "course_name", "order_number", "title"],
+  "query": {
+    "bool": {
+      "must": [{"multi_match": {"query": "масштабирование", "type": "phrase",
+                                "fields": ["title^3", "annotation^2", "content_text"]}}],
+      "filter": [{"term": {"lecture_type": "lecture"}}]
+    }
+  },
+  "sort": [{"lecture_id": "asc"}]
+}

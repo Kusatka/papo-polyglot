@@ -1,0 +1,11 @@
+{
+  "_source": ["title", "course_name"],
+  "query": {
+    "multi_match": {
+      "query": "партиционирование потоков",
+      "fields": ["title^3", "annotation^2", "content_text"],
+      "fuzziness": "AUTO"
+    }
+  },
+  "highlight": { "fields": { "content_text": { "fragment_size": 90, "number_of_fragments": 1 } } }
+}

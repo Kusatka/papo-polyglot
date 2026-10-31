@@ -1,0 +1,123 @@
+==== Elasticsearch ====
+Дата проверки: 2026-10-17 01:22:44
+
+$ curl -s http://localhost:9200
+{
+  "name" : "es-node-1",
+  "cluster_name" : "practice-cluster",
+  "cluster_uuid" : "2Z_kA27MT1CruR5M_rZElQ",
+  "version" : {
+    "number" : "8.16.0",
+    "build_flavor" : "default",
+    "build_type" : "docker",
+    "build_hash" : "12ff76a92922609df4aba61a368e7adf65589749",
+    "build_date" : "2024-11-08T10:05:56.292914697Z",
+    "build_snapshot" : false,
+    "lucene_version" : "9.12.0",
+    "minimum_wire_compatibility_version" : "7.17.0",
+    "minimum_index_compatibility_version" : "7.0.0"
+  },
+  "tagline" : "You Know, for Search"
+}
+
+$ curl -s 'http://localhost:9200/_cluster/health?pretty'
+{
+  "cluster_name" : "practice-cluster",
+  "status" : "green",
+  "timed_out" : false,
+  "number_of_nodes" : 1,
+  "number_of_data_nodes" : 1,
+  "active_primary_shards" : 29,
+  "active_shards" : 29,
+  "relocating_shards" : 0,
+  "initializing_shards" : 0,
+  "unassigned_shards" : 0,
+  "unassigned_primary_shards" : 0,
+  "delayed_unassigned_shards" : 0,
+  "number_of_pending_tasks" : 0,
+  "number_of_in_flight_fetch" : 0,
+  "task_max_waiting_in_queue_millis" : 0,
+  "active_shards_percent_as_number" : 100.0
+}
+
+-- место хранения данных и журналов:
+$ curl -s 'http://localhost:9200/_nodes/stats/fs?pretty&filter_path=nodes.*.fs.data.path'
+{
+  "nodes" : {
+    "I5CCdU-pRWqPO_5PSrKrpQ" : {
+      "fs" : {
+        "data" : [
+          {
+            "path" : "/usr/share/elasticsearch/data"
+          }
+        ]
+      }
+    }
+  }
+}
+
+$ curl -s 'http://localhost:9200/_nodes/settings?pretty&filter_path=nodes.*.settings.path'
+{
+  "nodes" : {
+    "I5CCdU-pRWqPO_5PSrKrpQ" : {
+      "settings" : {
+        "path" : {
+          "logs" : "/usr/share/elasticsearch/logs",
+          "home" : "/usr/share/elasticsearch"
+        }
+      }
+    }
+  }
+}
+
+-- базовые операции:
+$ curl -s -X PUT 'http://localhost:9200/students' -H 'Content-Type: application/json' -d '{"settings":{"number_of_shards":1,"number_of_replicas":0},"mappings":{"properties":{"name":{"type":"text"},"group":{"type":"keyword"},"bio":{"type":"text"}}}}'
+{"acknowledged":true,"shards_acknowledged":true,"index":"students"}
+
+$ curl -s -X PUT 'http://localhost:9200/students/_doc/1?refresh=true' -H 'Content-Type: application/json' -d '{"name":"Иванов Иван Иванович","group":"ИКБО-01-22","bio":"Студент третьего курса, увлекается программированием и машинным обучением"}'
+{"_index":"students","_id":"1","_version":1,"result":"created","forced_refresh":true,"_shards":{"total":1,"successful":1,"failed":0},"_seq_no":0,"_primary_term":1}
+
+$ curl -s -X PUT 'http://localhost:9200/students/_doc/2?refresh=true' -H 'Content-Type: application/json' -d '{"name":"Петрова Мария Сергеевна","group":"ИКБО-02-22","bio":"Студентка, занимается анализом данных и визуализацией"}'
+{"_index":"students","_id":"2","_version":1,"result":"created","forced_refresh":true,"_shards":{"total":1,"successful":1,"failed":0},"_seq_no":1,"_primary_term":1}
+
+$ curl -s -X GET 'http://localhost:9200/students/_search?pretty&filter_path=hits.total,hits.hits._source' -H 'Content-Type: application/json' -d '{"query":{"match":{"bio":"данных"}}}'
+{
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "hits" : [
+      {
+        "_source" : {
+          "name" : "Петрова Мария Сергеевна",
+          "group" : "ИКБО-02-22",
+          "bio" : "Студентка, занимается анализом данных и визуализацией"
+        }
+      }
+    ]
+  }
+}
+
+
+$ curl -s 'http://localhost:9200/_cat/indices/students?v'
+health status index    uuid                   pri rep docs.count docs.deleted store.size pri.store.size dataset.size
+green  open   students l5eJBKo8T5m3gO6Noy-nDg   1   0          2            0     10.2kb         10.2kb       10.2kb
+
+$ docker exec practice01-elasticsearch ls -la /usr/share/elasticsearch/logs
+total 716
+drwxrwxrwx 1 root          root    512 Oct 16 22:18 .
+drwxrwxr-x 1 root          root   4096 Nov 12  2024 ..
+-rw-rw-r-- 1 elasticsearch root  76852 Oct 16 22:20 gc.log
+-rw-rw-r-- 1 elasticsearch root   2354 Oct 16 22:10 gc.log.00
+-rw-rw-r-- 1 elasticsearch root   2354 Oct 16 22:10 gc.log.01
+-rw-rw-r-- 1 elasticsearch root  84815 Oct 16 22:17 gc.log.02
+-rw-rw-r-- 1 elasticsearch root   2354 Oct 16 22:17 gc.log.03
+-rw-rw-r-- 1 elasticsearch root   2354 Oct 16 22:17 gc.log.04
+-rw-rw-r-- 1 elasticsearch root 116584 Oct 16 22:22 practice-cluster.log
+-rw-rw-r-- 1 elasticsearch root      0 Oct 16 22:10 practice-cluster_audit.json
+-rw-rw-r-- 1 elasticsearch root      0 Oct 16 22:10 practice-cluster_deprecation.json
+-rw-rw-r-- 1 elasticsearch root      0 Oct 16 22:10 practice-cluster_index_indexing_slowlog.json
+-rw-rw-r-- 1 elasticsearch root      0 Oct 16 22:10 practice-cluster_index_search_slowlog.json
+-rw-rw-r-- 1 elasticsearch root 345657 Oct 16 22:22 practice-cluster_server.json
+

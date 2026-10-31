@@ -1,0 +1,90 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "analysis": {
+      "analyzer": {
+        "russian_custom": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "russian_stop",
+            "russian_stemmer"
+          ]
+        }
+      },
+      "filter": {
+        "russian_stop": {
+          "type": "stop",
+          "stopwords": "_russian_"
+        },
+        "russian_stemmer": {
+          "type": "stemmer",
+          "language": "russian"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "lecture_id": {
+        "type": "keyword"
+      },
+      "course_id": {
+        "type": "keyword"
+      },
+      "course_name": {
+        "type": "text",
+        "analyzer": "russian_custom",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "title": {
+        "type": "text",
+        "analyzer": "russian_custom",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "annotation": {
+        "type": "text",
+        "analyzer": "russian_custom"
+      },
+      "content_text": {
+        "type": "text",
+        "analyzer": "russian_custom"
+      },
+      "tech_requirements": {
+        "type": "text",
+        "analyzer": "russian_custom"
+      },
+      "lecture_type": {
+        "type": "keyword"
+      },
+      "order_number": {
+        "type": "integer"
+      },
+      "specialty_code": {
+        "type": "keyword"
+      },
+      "department": {
+        "type": "keyword"
+      },
+      "semester": {
+        "type": "integer"
+      },
+      "tags": {
+        "type": "keyword"
+      },
+      "updated_at": {
+        "type": "date"
+      }
+    }
+  }
+}

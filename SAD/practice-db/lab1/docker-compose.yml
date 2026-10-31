@@ -1,0 +1,48 @@
+# ЛР №1: API Gateway + сервис аналитического запроса. Хранилища — стенд ПР №1 (сеть practice01_default),
+# данные — структура ПР №3 (university_system). Запуск: docker compose up -d --build
+name: lab1
+
+x-logging: &default-logging
+  driver: json-file
+  options: { max-size: "10m", max-file: "3" }
+
+services:
+  lab1:
+    build: .
+    image: papo-lab:1.0
+    container_name: lab1-service
+    command: uvicorn app.lab1.main:app --host 0.0.0.0 --port 8001
+    env_file: .env
+    expose: ["8001"]          # наружу не публикуется: доступ только через шлюз
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    mem_limit: 256m
+    restart: unless-stopped
+    logging: *default-logging
+
+  gateway:
+    build: .
+    image: papo-lab:1.0
+    container_name: api-gateway
+    command: uvicorn app.gateway.main:app --host 0.0.0.0 --port 8000
+    env_file: .env
+    ports: ["8000:8000"]      # единственная точка входа: http://localhost:8000/docs
+    depends_on:
+      lab1:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    mem_limit: 256m
+    restart: unless-stopped
+    logging: *default-logging
+
+networks:
+  default:
+    name: practice01_default
+    external: true

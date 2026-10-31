@@ -1,0 +1,376 @@
+{
+ "term": "очереди сообщений",
+ "period": {
+  "from": "2026-03-02",
+  "to": "2026-05-31"
+ },
+ "lectures_found": 10,
+ "term_in_courses": [
+  {
+   "specialty": "38.03.05",
+   "course": "Распределённые системы",
+   "lectures": 10,
+   "examples": [
+    {
+     "title": "Очередь сообщений: принципы и применение",
+     "fragment": "<em>Очередь сообщений</em>: принципы и применение"
+    },
+    {
+     "title": "Очередь сообщений: принципы и применение",
+     "fragment": "<em>Очередь сообщений</em>: принципы и применение"
+    }
+   ]
+  }
+ ],
+ "scope": {
+  "classes": 18,
+  "marks": 279,
+  "students": 31
+ },
+ "students": [
+  {
+   "rank": 1,
+   "student": {
+    "id": "71b0ccd2-3ae9-56de-8e3b-7303d24a4a2e",
+    "student_card_number": "23Б0117",
+    "full_name": "Богданов Андрей Романович",
+    "group": "БСБО-01-23",
+    "specialty": "38.03.05 Бизнес-информатика",
+    "email": "23b0117@edu.mirea.ru",
+    "phone": "+7 998 616-47-20",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 3,
+   "total": 9,
+   "attendance_pct": 33.3,
+   "term_in_courses": [
+    "Распределённые системы"
+   ]
+  },
+  {
+   "rank": 2,
+   "student": {
+    "id": "b5d20c82-52b8-52e6-84b0-fec7edff935c",
+    "student_card_number": "23Б0125",
+    "full_name": "Виноградова Вероника Михайловна",
+    "group": "БСБО-01-23",
+    "specialty": "38.03.05 Бизнес-информатика",
+    "email": "23b0125@edu.mirea.ru",
+    "phone": "+7 946 578-32-51",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 4,
+   "total": 9,
+   "attendance_pct": 44.4,
+   "term_in_courses": [
+    "Распределённые системы"
+   ]
+  },
+  {
+   "rank": 3,
+   "student": {
+    "id": "303c982c-80c4-5c66-97b8-eaa77e4028ff",
+    "student_card_number": "23Б0124",
+    "full_name": "Лебедев Роман Алексеевич",
+    "group": "БСБО-01-23",
+    "specialty": "38.03.05 Бизнес-информатика",
+    "email": "23b0124@edu.mirea.ru",
+    "phone": "+7 964 645-63-20",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 5,
+   "total": 9,
+   "attendance_pct": 55.6,
+   "term_in_courses": [
+    "Распределённые системы"
+   ]
+  },
+  {
+   "rank": 4,
+   "student": {
+    "id": "636beab8-cc2a-55a5-a7df-23fda21cc8dd",
+    "student_card_number": "23Б0111",
+    "full_name": "Виноградов Евгений Николаевич",
+    "group": "БСБО-01-23",
+    "specialty": "38.03.05 Бизнес-информатика",
+    "email": "23b0111@edu.mirea.ru",
+    "phone": "+7 956 304-43-98",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 5,
+   "total": 9,
+   "attendance_pct": 55.6,
+   "term_in_courses": [
+    "Распределённые системы"
+   ]
+  },
+  {
+   "rank": 5,
+   "student": {
+    "id": "e4c7f639-3faa-59e4-9492-e6474a3795d8",
+    "student_card_number": "23Б0120",
+    "full_name": "Виноградов Никита Дмитриевич",
+    "group": "БСБО-01-23",
+    "specialty": "38.03.05 Бизнес-информатика",
+    "email": "23b0120@edu.mirea.ru",
+    "phone": "+7 973 577-83-89",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 5,
+   "total": 9,
+   "attendance_pct": 55.6,
+   "term_in_courses": [
+    "Распределённые системы"
+   ]
+  },
+  {
+   "rank": 6,
+   "student": {
+    "id": "e8904a71-e5c5-53b3-9e07-fecc611e0648",
+    "student_card_number": "23Б0204",
+    "full_name": "Лебедев Сергей Викторович",
+    "group": "БСБО-02-23",
+    "specialty": "38.03.05 Бизнес-информатика",
+    "email": "23b0204@edu.mirea.ru",
+    "phone": "+7 917 877-55-33",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 5,
+   "total": 9,
+   "attendance_pct": 55.6,
+   "term_in_courses": [
+    "Распределённые системы"
+   ]
+  },
+  {
+   "rank": 7,
+   "student": {
+    "id": "faab4354-a894-5fa1-874d-4dc46686f67b",
+    "student_card_number": "23Б0203",
+    "full_name": "Кузнецов Кирилл Павлович",
+    "group": "БСБО-02-23",
+    "specialty": "38.03.05 Бизнес-информатика",
+    "email": "23b0203@edu.mirea.ru",
+    "phone": "+7 982 848-37-82",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 5,
+   "total": 9,
+   "attendance_pct": 55.6,
+   "term_in_courses": [
+    "Распределённые системы"
+   ]
+  },
+  {
+   "rank": 8,
+   "student": {
+    "id": "18c45a4f-9817-5fbb-b67f-fc1ded545cf0",
+    "student_card_number": "23Б0121",
+    "full_name": "Голубев Никита Николаевич",
+    "group": "БСБО-01-23",
+    "specialty": "38.03.05 Бизнес-информатика",
+    "email": "23b0121@edu.mirea.ru",
+    "phone": "+7 986 338-96-18",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 6,
+   "total": 9,
+   "attendance_pct": 66.7,
+   "term_in_courses": [
+    "Распределённые системы"
+   ]
+  },
+  {
+   "rank": 9,
+   "student": {
+    "id": "3798ae31-5b72-5e4e-9f40-7544aacedea5",
+    "student_card_number": "23Б0110",
+    "full_name": "Семёнов Егор Андреевич",
+    "group": "БСБО-01-23",
+    "specialty": "38.03.05 Бизнес-информатика",
+    "email": "23b0110@edu.mirea.ru",
+    "phone": "+7 947 951-44-11",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 6,
+   "total": 9,
+   "attendance_pct": 66.7,
+   "term_in_courses": [
+    "Распределённые системы"
+   ]
+  },
+  {
+   "rank": 10,
+   "student": {
+    "id": "480baba1-abe5-57f4-b1d6-c368291a5c25",
+    "student_card_number": "23Б0205",
+    "full_name": "Михайлова Елена Алексеевна",
+    "group": "БСБО-02-23",
+    "specialty": "38.03.05 Бизнес-информатика",
+    "email": "23b0205@edu.mirea.ru",
+    "phone": "+7 950 265-43-42",
+    "enrollment_date": "2023-09-01",
+    "status": "active"
+   },
+   "attended": 6,
+   "total": 9,
+   "attendance_pct": 66.7,
+   "term_in_courses": [
+    "Распределённые системы"
+   ]
+  }
+ ],
+ "trace": [
+  {
+   "step": 1,
+   "store": "Elasticsearch",
+   "action": "multi_match(phrase) «очереди сообщений» по title/annotation/content_text, lecture_type=lecture",
+   "result": "найдено лекций: 10 из 10, курсов: 1",
+   "ms": 16.2,
+   "details": {
+    "courses": [
+     {
+      "specialty": "38.03.05",
+      "course": "Распределённые системы",
+      "lectures": 10
+     }
+    ],
+    "lecture_ids": [
+     "176281b4-04b9-5a36-ae85-8716c64e1f8c",
+     "26e6d30f-a9a4-5364-aecf-015ed3bbf612",
+     "34713646-b789-5951-9c20-a651ca5f24ae",
+     "3f4cc34b-18c5-5306-98b6-eb32f6885cf9",
+     "3f6615d7-2d98-5491-aabe-609c26492dd2",
+     "6e6fdba1-25f9-5098-8269-b0f334ad1434",
+     "ce655e49-2284-5b6e-9629-7c0de97ed7ba",
+     "d9990a8d-fe0c-5907-89b6-522114a627e2",
+     "dd8a7023-d3d7-52b3-bee9-ffb306efb1ff",
+     "dfff325f-2979-5408-8a0d-1b0a43ec62c4"
+    ]
+   }
+  },
+  {
+   "step": 2,
+   "store": "PostgreSQL",
+   "action": "attendance JOIN schedule по 10 лекциям за 2026-03-02…2026-05-31, week_start_date ≥ 2026-03-02",
+   "result": "занятий: 18, отметок: 279, студентов: 31, недельных партиций в периоде: 13; отобрано 10 с минимальной посещаемостью",
+   "ms": 44.1,
+   "details": [
+    {
+     "student_id": "71b0ccd2-3ae9-56de-8e3b-7303d24a4a2e",
+     "total": 9,
+     "attended": 3,
+     "attendance_pct": 33.3,
+     "term_courses": [
+      "Распределённые системы"
+     ]
+    },
+    {
+     "student_id": "b5d20c82-52b8-52e6-84b0-fec7edff935c",
+     "total": 9,
+     "attended": 4,
+     "attendance_pct": 44.4,
+     "term_courses": [
+      "Распределённые системы"
+     ]
+    },
+    {
+     "student_id": "303c982c-80c4-5c66-97b8-eaa77e4028ff",
+     "total": 9,
+     "attended": 5,
+     "attendance_pct": 55.6,
+     "term_courses": [
+      "Распределённые системы"
+     ]
+    },
+    {
+     "student_id": "636beab8-cc2a-55a5-a7df-23fda21cc8dd",
+     "total": 9,
+     "attended": 5,
+     "attendance_pct": 55.6,
+     "term_courses": [
+      "Распределённые системы"
+     ]
+    },
+    {
+     "student_id": "e4c7f639-3faa-59e4-9492-e6474a3795d8",
+     "total": 9,
+     "attended": 5,
+     "attendance_pct": 55.6,
+     "term_courses": [
+      "Распределённые системы"
+     ]
+    },
+    {
+     "student_id": "e8904a71-e5c5-53b3-9e07-fecc611e0648",
+     "total": 9,
+     "attended": 5,
+     "attendance_pct": 55.6,
+     "term_courses": [
+      "Распределённые системы"
+     ]
+    },
+    {
+     "student_id": "faab4354-a894-5fa1-874d-4dc46686f67b",
+     "total": 9,
+     "attended": 5,
+     "attendance_pct": 55.6,
+     "term_courses": [
+      "Распределённые системы"
+     ]
+    },
+    {
+     "student_id": "18c45a4f-9817-5fbb-b67f-fc1ded545cf0",
+     "total": 9,
+     "attended": 6,
+     "attendance_pct": 66.7,
+     "term_courses": [
+      "Распределённые системы"
+     ]
+    },
+    {
+     "student_id": "3798ae31-5b72-5e4e-9f40-7544aacedea5",
+     "total": 9,
+     "attended": 6,
+     "attendance_pct": 66.7,
+     "term_courses": [
+      "Распределённые системы"
+     ]
+    },
+    {
+     "student_id": "480baba1-abe5-57f4-b1d6-c368291a5c25",
+     "total": 9,
+     "attended": 6,
+     "attendance_pct": 66.7,
+     "term_courses": [
+      "Распределённые системы"
+     ]
+    }
+   ]
+  },
+  {
+   "step": 3,
+   "store": "Redis",
+   "action": "HGETALL student:{id} для 10 студентов (cache-aside, TTL 2 ч)",
+   "result": "из кэша: 10, промахов: 0",
+   "ms": 1.2
+  },
+  {
+   "step": 4,
+   "store": "Сервис ЛР №1",
+   "action": "сборка отчёта",
+   "result": "в отчёте 10 студентов",
+   "ms": 0.1
+  }
+ ],
+ "requested_by": "teacher"
+}

@@ -1,0 +1,117 @@
+==== ПР №2: pg, 2026-10-17 02:36:27 ====
+
+==== 1. Создание хранилища: база pr2_attendance, таблица attendance с недельными партициями ====
+$ docker exec practice01-postgres psql -U admin -d practice_db -c CREATE DATABASE pr2_attendance;
+CREATE DATABASE
+
+$ docker exec practice01-postgres psql -U admin -d pr2_attendance -q -f /tmp/pg_schema.sql
+ create_weekly_partitions 
+--------------------------
+ 
+(1 row)
+
+
+$ docker exec practice01-postgres psql -U admin -d pr2_attendance -c SELECT count(*) AS partitions, min(c.relname) AS first, max(c.relname) FILTER (WHERE c.relname <> 'attendance_default') AS last FROM pg_inherits i JOIN pg_class c ON c.oid = i.inhrelid WHERE i.inhparent = 'attendance'::regclass;
+ partitions |       first        |          last          
+------------+--------------------+------------------------
+         21 | attendance_default | attendance_w2026_06_22
+(1 row)
+
+
+
+==== 2. Добавление: студенты, расписание, случайные отметки посещаемости ====
+$ docker exec practice01-postgres psql -U admin -d pr2_attendance -f /tmp/pg_fill.sql
+INSERT 0 31
+INSERT 0 176
+ setseed 
+---------
+ 
+(1 row)
+
+INSERT 0 2544
+
+$ docker exec practice01-postgres psql -U admin -d pr2_attendance -c SELECT tableoid::regclass AS partition, count(*) AS rows, round(100.0 * avg(is_present::int), 1) AS present_pct FROM attendance GROUP BY 1 ORDER BY 1;
+       partition        | rows | present_pct 
+------------------------+------+-------------
+ attendance_w2026_02_09 |  194 |        75.3
+ attendance_w2026_02_16 |  194 |        72.7
+ attendance_w2026_02_23 |  194 |        76.3
+ attendance_w2026_03_02 |  194 |        69.1
+ attendance_w2026_03_09 |  194 |        71.1
+ attendance_w2026_03_16 |  194 |        74.7
+ attendance_w2026_03_23 |  194 |        70.1
+ attendance_w2026_03_30 |  194 |        76.8
+ attendance_w2026_04_06 |  124 |        71.8
+ attendance_w2026_04_13 |  124 |        74.2
+ attendance_w2026_04_20 |  124 |        76.6
+ attendance_w2026_04_27 |  124 |        79.8
+ attendance_w2026_05_04 |  124 |        71.0
+ attendance_w2026_05_11 |  124 |        71.0
+ attendance_w2026_05_18 |  124 |        74.2
+ attendance_w2026_05_25 |  124 |        77.4
+(16 rows)
+
+
+
+==== 3. Чтение по ключу и отсечение партиций ====
+$ docker exec practice01-postgres psql -U admin -d pr2_attendance -c SELECT a.id, a.week_start_date, st.last_name, sc.course_name, sc.scheduled_date, a.is_present FROM attendance a JOIN students st ON st.id = a.student_id JOIN schedule sc ON sc.id = a.schedule_id WHERE st.student_card_number = '23Б0101' AND a.week_start_date = '2026-03-30' ORDER BY sc.scheduled_date;
+                  id                  | week_start_date | last_name |             course_name              | scheduled_date | is_present 
+--------------------------------------+-----------------+-----------+--------------------------------------+----------------+------------
+ bd783523-6608-4ac2-a509-b766399195ce | 2026-03-30      | Судовский | Большие данные и потоковая обработка | 2026-03-30     | f
+ 4c08bc31-d10d-49b1-9a43-787484672f58 | 2026-03-30      | Судовский | Проектирование архитектуры ПО        | 2026-03-30     | t
+ cf1e61cf-c119-41d3-9e42-7a2d45a2daea | 2026-03-30      | Судовский | Распределённые системы               | 2026-03-31     | t
+ 26dbf08a-a9c8-473a-bbe5-64624c80f9b7 | 2026-03-30      | Судовский | Хранилища данных и OLAP              | 2026-04-01     | t
+ c64fe06d-d653-4d37-b0b8-9fe461f7d29d | 2026-03-30      | Судовский | Информационная безопасность          | 2026-04-02     | t
+ 43fa1807-3578-49a2-85de-5fd353de2207 | 2026-03-30      | Судовский | Бизнес-аналитика                     | 2026-04-03     | t
+(6 rows)
+
+
+$ docker exec practice01-postgres psql -U admin -d pr2_attendance -c EXPLAIN (COSTS OFF) SELECT count(*) FROM attendance WHERE week_start_date = '2026-03-30';
+                       QUERY PLAN                       
+--------------------------------------------------------
+ Aggregate
+   ->  Seq Scan on attendance_w2026_03_30 attendance
+         Filter: (week_start_date = '2026-03-30'::date)
+(3 rows)
+
+
+
+==== 4. Изменение: отметка задним числом ====
+$ docker exec practice01-postgres psql -U admin -d pr2_attendance -c UPDATE attendance a SET is_present = true, note = 'исправлено по справке', marked_at = now() WHERE (a.id, a.week_start_date) = (SELECT a2.id, a2.week_start_date FROM attendance a2 JOIN students st ON st.id = a2.student_id WHERE st.student_card_number = '23Б0101' AND NOT a2.is_present ORDER BY a2.week_start_date LIMIT 1) RETURNING a.id, a.week_start_date, a.is_present, a.note;
+                  id                  | week_start_date | is_present |         note          
+--------------------------------------+-----------------+------------+-----------------------
+ bd783523-6608-4ac2-a509-b766399195ce | 2026-03-30      | t          | исправлено по справке
+(1 row)
+
+UPDATE 1
+
+
+==== 5. Удаление: записи одного студента и целая неделя (DETACH + DROP партиции) ====
+$ docker exec practice01-postgres psql -U admin -d pr2_attendance -c DELETE FROM attendance a USING students st WHERE st.id = a.student_id AND st.student_card_number = '23Б0125';
+DELETE 80
+
+$ docker exec practice01-postgres psql -U admin -d pr2_attendance -c ALTER TABLE attendance DETACH PARTITION attendance_w2026_05_25; DROP TABLE attendance_w2026_05_25;
+ALTER TABLE
+DROP TABLE
+
+$ docker exec practice01-postgres psql -U admin -d pr2_attendance -c SELECT count(*) AS rows, count(DISTINCT tableoid) AS partitions_with_rows FROM attendance;
+ rows | partitions_with_rows 
+------+----------------------
+ 2344 |                   15
+(1 row)
+
+
+
+==== 6. Удаление хранилища ====
+$ docker exec practice01-postgres psql -U admin -d pr2_attendance -c DROP TABLE attendance;
+DROP TABLE
+
+$ docker exec practice01-postgres psql -U admin -d practice_db -c DROP DATABASE pr2_attendance WITH (FORCE);
+DROP DATABASE
+
+$ docker exec practice01-postgres psql -U admin -d practice_db -c SELECT datname FROM pg_database WHERE datname LIKE 'pr2%';
+ datname 
+---------
+(0 rows)
+
+

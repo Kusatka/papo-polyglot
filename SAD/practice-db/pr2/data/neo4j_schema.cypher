@@ -1,0 +1,3 @@
+CREATE CONSTRAINT group_name IF NOT EXISTS FOR (g:Group) REQUIRE g.name IS UNIQUE;
+CREATE CONSTRAINT student_card IF NOT EXISTS FOR (s:Student) REQUIRE s.student_card_number IS UNIQUE;
+CREATE CONSTRAINT course_id IF NOT EXISTS FOR (c:LectureCourse) REQUIRE c.id IS UNIQUE;

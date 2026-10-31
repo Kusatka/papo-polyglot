@@ -1,0 +1,22 @@
+flowchart LR
+    subgraph RD["Чтение (read path)"]
+        direction LR
+        U2(["Клиент"]) --> API2["API-сервер"]
+        API2 -- "расписание на сегодня<br/>(cache-aside)" --> RR[("Redis")]
+        RR -. "промах кэша:<br/>чтение и запись в кэш" .-> PGR[("PostgreSQL")]
+        API2 -- "поиск по текстам лекций" --> ER[("Elasticsearch")]
+        API2 -- "навигация по иерархии,<br/>слушатели курса" --> NR[("Neo4j")]
+        API2 -- "страница занятия<br/>со всеми материалами" --> MR[("MongoDB")]
+        API2 -- "отчёты, агрегаты,<br/>редактирование" --> PGR
+        API2 -- "отметка посещаемости:<br/>буфер → фоновая запись" --> RR
+    end
+    subgraph W["Запись (write path)"]
+        direction LR
+        U1(["Пользователь /<br/>администратор"]) --> API1["API-сервер"]
+        API1 -- "INSERT / UPDATE / DELETE<br/>(все записи)" --> PGW[("PostgreSQL<br/>master")]
+        PGW -- "журнал WAL" --> CDC["CDC: Debezium<br/>→ Apache Kafka<br/>(ЛР №4–6)"]
+        CDC -- "sink" --> RW[("Redis")]
+        CDC -- "sink" --> NW[("Neo4j")]
+        CDC -- "sink" --> MW[("MongoDB")]
+        CDC -- "sink" --> EW[("Elasticsearch")]
+    end
