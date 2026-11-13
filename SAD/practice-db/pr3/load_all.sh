@@ -2,6 +2,7 @@
 # ПР №3: развернуть спроектированную структуру во всех пяти хранилищах и наполнить тестовыми данными.
 # Повторный запуск пересоздаёт данные с нуля. Запуск из Git Bash:  ./load_all.sh [pg|redis|neo4j|mongo|es]
 export MSYS_NO_PATHCONV=1
+set -eo pipefail
 cd "$(dirname "$0")"
 set -a; source ../pr1/.env; set +a
 mkdir -p evidence

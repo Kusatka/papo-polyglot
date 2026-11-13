@@ -28,8 +28,12 @@ jobs:
         run: |
           docker compose -f practice-db/pr1/docker-compose.yml config --quiet
           docker compose -f practice-db/pr1/docker-compose.yml up -d --wait --wait-timeout 300 redis mongodb neo4j elasticsearch postgres
+      - name: Execute all five CRUD scenarios
+        run: bash practice-db/pr2/run_all.sh
       - name: Load polyglot model
         run: bash practice-db/pr3/load_all.sh
+      - name: Verify data in all five stores
+        run: python practice-db/lab1/tests/verify_stores.py
       - name: Start three laboratory services and gateway
         run: docker compose -f practice-db/lab1/docker-compose.yml up -d --build --wait --wait-timeout 180
       - name: Contract and independent integration tests

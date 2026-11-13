@@ -4,6 +4,7 @@
 #   --keep  — не выполнять последний шаг «удалить хранилище» (данные остаются для показа в веб-интерфейсах)
 # Вывод каждой СУБД сохраняется в evidence/<субд>.txt
 export MSYS_NO_PATHCONV=1
+set -eo pipefail
 cd "$(dirname "$0")"
 set -a; source ../pr1/.env; set +a
 mkdir -p evidence
@@ -14,10 +15,10 @@ step() { echo; echo "==== $1 ===="; }
 RCLI="docker exec practice01-redis redis-cli -a $REDIS_PASSWORD --no-auth-warning -n 1 --raw"
 MONGO="docker exec -i practice01-mongodb mongosh --quiet -u $MONGO_USER -p $MONGO_PASSWORD --authenticationDatabase admin"
 CY="docker exec practice01-neo4j cypher-shell -u neo4j -p $NEO4J_PASSWORD --format plain"
-PSQL="docker exec practice01-postgres psql -U $POSTGRES_USER"
+PSQL="docker exec practice01-postgres psql -v ON_ERROR_STOP=1 -U $POSTGRES_USER"
 ES=http://localhost:9200
 SID=$(PYTHONIOENCODING=utf-8 python -P -c "import sys;sys.path.insert(0,'../common');import dataset as d;print([c['id'] for c in d.build()['courses'] if c['name']=='NoSQL и полиглотное хранение'][0])")
-esj() { echo "\$ curl -X $1 $2 ${3:+--data-binary @$3}"; if [ -n "$3" ]; then curl -s -X "$1" "$2" -H 'Content-Type: application/json' --data-binary "@$3"; else curl -s -X "$1" "$2"; fi; echo; echo; }
+esj() { echo "\$ curl -X $1 $2 ${3:+--data-binary @$3}"; if [ -n "$3" ]; then curl -fsS -X "$1" "$2" -H 'Content-Type: application/json' --data-binary "@$3"; else curl -fsS -X "$1" "$2"; fi; echo; echo; }
 
 redis() {
   step "1. Создание хранилища: логическая база Redis №1 (SELECT 1), проверка, что она пуста"; run $RCLI DBSIZE
