@@ -8,6 +8,8 @@ from pathlib import Path
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Cm, Pt, RGBColor
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parent
 
@@ -23,6 +25,14 @@ def build(number):
         style.font.name = 'Times New Roman'
         style.font.size = Pt(14 if name != 'Title' else 18)
         style.font.color.rgb = RGBColor(0, 0, 0)
+        fonts = style.element.get_or_add_rPr().rFonts
+        for key in list(fonts.attrib):
+            if key.endswith('Theme'):
+                del fonts.attrib[key]
+        for key in ['ascii', 'hAnsi', 'eastAsia', 'cs']:
+            fonts.set(qn('w:' + key), 'Times New Roman')
+        for border in style.element.xpath('.//w:pBdr'):
+            border.getparent().remove(border)
         style.paragraph_format.line_spacing = 1.5
         style.paragraph_format.space_after = Pt(6)
     title = doc.add_paragraph(f'Лабораторная работа {number}', 'Title')
@@ -32,6 +42,12 @@ def build(number):
     doc.add_paragraph(topic).alignment = WD_ALIGN_PARAGRAPH.CENTER
     doc.add_paragraph('Судовский Андрей Леонидович\nБСБО-01-23\nМосква 2026').alignment = WD_ALIGN_PARAGRAPH.RIGHT
     doc.add_page_break()
+    sec.different_first_page_header_footer = True
+    footer = sec.footer.paragraphs[0]
+    footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    field = OxmlElement('w:fldSimple')
+    field.set(qn('w:instr'), 'PAGE')
+    footer._p.append(field)
     source = ROOT / f'ОТЧЁТ_ЛР{number}_исходник.md'
     for line in source.read_text(encoding='utf-8').splitlines()[4:]:
         if not line.strip():
@@ -49,6 +65,8 @@ def build(number):
             p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
             p.paragraph_format.first_line_indent = Cm(1.25)
     path = ROOT / f'Отчёт_Лабораторная_{number}.docx'
+    for border in doc.element.xpath('.//w:pBdr'):
+        border.getparent().remove(border)
     doc.save(path)
     print(path)
 
