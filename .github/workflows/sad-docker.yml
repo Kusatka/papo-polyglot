@@ -1,0 +1,41 @@
+name: SAD Docker verification
+on:
+  push:
+    branches: [Thirtyone]
+    paths: ['SAD/**', '.github/workflows/sad-docker.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  docker-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: SAD
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare disposable environment
+        run: |
+          python practice-db/lab1/tests/prepare_ci.py
+          mkdir -p practice-db/pr1/logs/{redis,mongodb,neo4j,elasticsearch,postgres}
+          chmod -R 777 practice-db/pr1/logs
+          sudo sysctl -w vm.max_map_count=262144
+      - name: Validate compose and start five databases
+        run: |
+          docker compose -f practice-db/pr1/docker-compose.yml config --quiet
+          docker compose -f practice-db/pr1/docker-compose.yml up -d --wait --wait-timeout 300 redis mongodb neo4j elasticsearch postgres
+      - name: Load polyglot model
+        run: bash practice-db/pr3/load_all.sh
+      - name: Start three laboratory services and gateway
+        run: docker compose -f practice-db/lab1/docker-compose.yml up -d --build --wait --wait-timeout 180
+      - name: Contract and independent integration tests
+        run: |
+          python -m pip install -r practice-db/lab1/requirements.txt
+          PYTHONPATH=practice-db/lab1 python practice-db/lab1/tests/test_analytics_api.py
+          python practice-db/lab1/tests/verify.py масштабирование 2026-02-09 2026-04-19
+          python practice-db/lab1/tests/verify.py 'очередь сообщений' 2026-02-09 2026-04-19
+          python practice-db/lab1/tests/verify_analytics.py
