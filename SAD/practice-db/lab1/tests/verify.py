@@ -22,13 +22,14 @@ SELECT st.student_card_number || '|' || sum(CASE WHEN a.is_present THEN 1 ELSE 0
 FROM students st
 JOIN attendance a ON a.student_id = st.id
 JOIN schedule s   ON s.id = a.schedule_id
-WHERE s.lecture_id IN ({', '.join("'" + i + "'" for i in ids)})
+WHERE s.lecture_id = ANY(ARRAY[{', '.join("'" + i + "'" for i in ids)}]::uuid[])
   AND s.scheduled_date BETWEEN '{d1}' AND '{d2}'
 GROUP BY st.id, st.student_card_number
-ORDER BY sum(CASE WHEN a.is_present THEN 1 ELSE 0 END)::numeric / count(*), count(*) DESC, st.id
+ORDER BY round(100.0 * sum(CASE WHEN a.is_present THEN 1 ELSE 0 END) / count(*), 1), count(*) DESC, st.id
 LIMIT 10;"""
 out = subprocess.run(['docker', 'exec', '-i', 'practice01-postgres', 'psql', '-U', 'admin', '-d', 'university_system',
-                      '-tA'], input=sql, capture_output=True, text=True, encoding='utf-8').stdout.split()
+                      '-tA', '-v', 'ON_ERROR_STOP=1'], input=sql, capture_output=True, text=True,
+                     encoding='utf-8', check=True).stdout.split()
 direct = [(c, int(a), int(t), float(p)) for c, a, t, p in (r.split('|') for r in out)]
 print(f'термин: {term}; период {d1}…{d2}; лекций из Elasticsearch: {len(ids)}')
 print(f'{"№":>2}  {"сервис (зачётка посещ/всего %)":<34} {"прямой SQL":<34} совпадает')
@@ -38,4 +39,4 @@ for i, (a, b) in enumerate(zip(service, direct), start=1):
     ok &= same
     print(f'{i:>2}  {a[0]} {a[1]:>2}/{a[2]:<3} {a[3]:>5}%{"":13} {b[0]} {b[1]:>2}/{b[2]:<3} {b[3]:>5}%{"":13} {"да" if same else "НЕТ"}')
 print('ИТОГ:', 'расчёт сервиса подтверждён' if ok and len(service) == len(direct) else 'РАСХОЖДЕНИЕ')
-sys.exit(0 if ok else 1)
+sys.exit(0 if ok and len(service) == len(direct) else 1)

@@ -23,6 +23,38 @@ services:
     restart: unless-stopped
     logging: *default-logging
 
+  lab2:
+    build: .
+    image: papo-lab:1.0
+    container_name: lab2-service
+    command: uvicorn app.lab2.main:app --host 0.0.0.0 --port 8002
+    env_file: .env
+    expose: ["8002"]
+    mem_limit: 256m
+    restart: unless-stopped
+    logging: *default-logging
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8002/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  lab3:
+    build: .
+    image: papo-lab:1.0
+    container_name: lab3-service
+    command: uvicorn app.lab3.main:app --host 0.0.0.0 --port 8003
+    env_file: .env
+    expose: ["8003"]
+    mem_limit: 256m
+    restart: unless-stopped
+    logging: *default-logging
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8003/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
   gateway:
     build: .
     image: papo-lab:1.0
@@ -32,6 +64,10 @@ services:
     ports: ["8000:8000"]      # единственная точка входа: http://localhost:8000/docs
     depends_on:
       lab1:
+        condition: service_healthy
+      lab2:
+        condition: service_healthy
+      lab3:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]

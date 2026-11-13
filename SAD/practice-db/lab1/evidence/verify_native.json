@@ -1,0 +1,165 @@
+{
+  "status": "passed",
+  "method": "Python loops over database snapshot",
+  "cases": [
+    {
+      "lab": 2,
+      "course": "Проектирование архитектуры ПО",
+      "classes": 40,
+      "listeners": 31
+    },
+    {
+      "lab": 2,
+      "course": "Большие данные и потоковая обработка",
+      "classes": 32,
+      "listeners": 31
+    },
+    {
+      "lab": 2,
+      "course": "Распределённые системы",
+      "classes": 24,
+      "listeners": 31
+    },
+    {
+      "lab": 2,
+      "course": "Хранилища данных и OLAP",
+      "classes": 24,
+      "listeners": 31
+    },
+    {
+      "lab": 2,
+      "course": "Информационная безопасность",
+      "classes": 16,
+      "listeners": 31
+    },
+    {
+      "lab": 2,
+      "course": "NoSQL и полиглотное хранение",
+      "classes": 16,
+      "listeners": 18
+    },
+    {
+      "lab": 2,
+      "course": "Бизнес-аналитика",
+      "classes": 16,
+      "listeners": 21
+    },
+    {
+      "lab": 2,
+      "course": "Проектирование архитектуры ПО",
+      "classes": 40,
+      "listeners": 46
+    },
+    {
+      "lab": 2,
+      "course": "Тестирование программного обеспечения",
+      "classes": 32,
+      "listeners": 46
+    },
+    {
+      "lab": 2,
+      "course": "Компьютерные сети",
+      "classes": 24,
+      "listeners": 46
+    },
+    {
+      "lab": 2,
+      "course": "Машинное обучение",
+      "classes": 16,
+      "listeners": 29
+    },
+    {
+      "lab": 2,
+      "course": "Разработка мобильных приложений",
+      "classes": 16,
+      "listeners": 25
+    },
+    {
+      "lab": 3,
+      "group": "БСБО-01-23",
+      "from": "2026-02-09",
+      "to": "2026-05-31",
+      "rows": 114
+    },
+    {
+      "lab": 3,
+      "group": "БСБО-01-23",
+      "from": "2026-03-11",
+      "to": "2026-03-18",
+      "rows": 114
+    },
+    {
+      "lab": 3,
+      "group": "БСБО-01-23",
+      "from": "2027-01-01",
+      "to": "2027-01-31",
+      "rows": 114
+    },
+    {
+      "lab": 3,
+      "group": "БСБО-02-23",
+      "from": "2026-02-09",
+      "to": "2026-05-31",
+      "rows": 28
+    },
+    {
+      "lab": 3,
+      "group": "БСБО-02-23",
+      "from": "2026-03-11",
+      "to": "2026-03-18",
+      "rows": 28
+    },
+    {
+      "lab": 3,
+      "group": "БСБО-02-23",
+      "from": "2027-01-01",
+      "to": "2027-01-31",
+      "rows": 28
+    },
+    {
+      "lab": 3,
+      "group": "ИКБО-01-23",
+      "from": "2026-02-09",
+      "to": "2026-05-31",
+      "rows": 48
+    },
+    {
+      "lab": 3,
+      "group": "ИКБО-01-23",
+      "from": "2026-03-11",
+      "to": "2026-03-18",
+      "rows": 48
+    },
+    {
+      "lab": 3,
+      "group": "ИКБО-01-23",
+      "from": "2027-01-01",
+      "to": "2027-01-31",
+      "rows": 48
+    },
+    {
+      "lab": 3,
+      "group": "ИКБО-02-23",
+      "from": "2026-02-09",
+      "to": "2026-05-31",
+      "rows": 44
+    },
+    {
+      "lab": 3,
+      "group": "ИКБО-02-23",
+      "from": "2026-03-11",
+      "to": "2026-03-18",
+      "rows": 44
+    },
+    {
+      "lab": 3,
+      "group": "ИКБО-02-23",
+      "from": "2027-01-01",
+      "to": "2027-01-31",
+      "rows": 44
+    }
+  ],
+  "negative_checks": 9,
+  "execution": "ASGI TestClient + native PostgreSQL; Docker/gateway excluded",
+  "postgres_version": "18.3"
+}

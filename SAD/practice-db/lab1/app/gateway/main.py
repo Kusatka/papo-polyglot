@@ -2,6 +2,7 @@
 import logging
 import os
 from datetime import date
+from uuid import UUID
 
 import httpx
 from fastapi import Depends, FastAPI, HTTPException, Query, Request, status
@@ -15,6 +16,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s %(name)s %(levelname
 logging.getLogger('httpx').setLevel(logging.WARNING)      # без строки на каждый внутренний HTTP-запрос
 log = logging.getLogger('gateway')
 LAB1_URL = os.environ.get('LAB1_URL', 'http://lab1:8001')
+LAB2_URL = os.environ.get('LAB2_URL', 'http://lab2:8002')
+LAB3_URL = os.environ.get('LAB3_URL', 'http://lab3:8003')
 USERS = load_users()
 
 app = FastAPI(title='API Gateway — Проектирование архитектуры ПО', version='1.0.0',
@@ -68,3 +71,29 @@ def lab1_report(request: Request,
         return JSONResponse(resp.json(), status_code=resp.status_code)
     except ValueError:   # сервис ответил не JSON (внутренняя ошибка)
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, f'Сервис ЛР №1 вернул {resp.status_code}: {resp.text[:200]}')
+
+
+def forward_report(url, request):
+    """JWT проверен dependency шлюза; сервис выполняет повторную проверку."""
+    try:
+        response = httpx.get(f'{url}/report', params=request.query_params, timeout=30,
+                             headers={'Authorization': request.headers['authorization']})
+        return JSONResponse(response.json(), status_code=response.status_code)
+    except (httpx.HTTPError, ValueError):
+        raise HTTPException(502, 'Сервис аналитического отчёта недоступен')
+
+
+@app.get('/api/lab2/report', tags=['lab2'], summary='Вместимость аудитории и требования к технике')
+def lab2_report(request: Request, course_id: UUID, semester: int = Query(..., ge=1, le=12),
+                study_year: int = Query(..., ge=1, le=6),
+                academic_year: int = Query(..., ge=1900, le=2200),
+                trace: bool = False, user: dict = Depends(current_user)):
+    return forward_report(LAB2_URL, request)
+
+
+@app.get('/api/lab3/report', tags=['lab3'], summary='Плановые и посещённые академические часы группы')
+def lab3_report(request: Request, group_name: str = Query(..., min_length=1, max_length=50),
+                date_from: date = Query(...), date_to: date = Query(...),
+                tag: str = Query('спецдисциплина кафедры', min_length=1, max_length=100),
+                trace: bool = False, user: dict = Depends(current_user)):
+    return forward_report(LAB3_URL, request)

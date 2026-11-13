@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="540" viewBox="0 0 1400 540" font-family="'Segoe UI', Arial, sans-serif"><defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker></defs><rect width="100%" height="100%" fill="#fff"/><text x="700" y="30.0" font-size="22" fill="#000" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">DFD Йордана–Коуда — контекст ЛР3</text>
+<rect x="30.0" y="185.0" width="240" height="170" fill="#eef3fb" stroke="#2e4a7a" stroke-width="2"/>
+<text x="150" y="270.0" font-size="15" fill="#000" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">Пользователь</text>
+<circle cx="700" cy="270" r="125" fill="#fff8e6" stroke="#9a6b00" stroke-width="2"/>
+<text x="700" y="171.0" font-size="16" fill="#7a5200" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">0</text>
+<text x="700" y="270.2" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Рассчитать учебные</text>
+<text x="700" y="289.8" font-size="15" fill="#000" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">часы группы</text>
+<rect x="1090.0" y="195.0" width="280" height="150" fill="#eef3fb" stroke="#2e4a7a" stroke-width="2"/>
+<text x="1230" y="260.2" font-size="15" fill="#000" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">Загрузка данных</text>
+<text x="1230" y="279.8" font-size="15" fill="#000" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="">кафедры ПР3</text>
+<polyline points="270.0,220.0 585.0,220.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="420" y="145.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Логин, пароль; JWT,</text>
+<text x="420" y="164.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">группа, период, тег</text>
+<polygon points="585,220 573.0,215.0 573.0,225.0" fill="#444"/>
+<polyline points="585.0,320.0 270.0,320.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="420" y="405.9" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">JWT / отказ; группа, студент,</text>
+<text x="420" y="424.1" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">курс, план / посещено, trace</text>
+<polygon points="270,320 282.0,325.0 282.0,315.0" fill="#444"/>
+<polyline points="1090.0,270.0 825.0,270.0" fill="none" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+<text x="960" y="161.8" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">Группы, студенты, курсы,</text>
+<text x="960" y="180.0" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">занятия, выбор курсов,</text>
+<text x="960" y="198.2" font-size="14" fill="#222" font-weight="normal" text-anchor="middle" dominant-baseline="middle" style="">расписание и посещения</text>
+<polygon points="825,270 837.0,275.0 837.0,265.0" fill="#444"/></svg>
