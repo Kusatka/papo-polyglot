@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "scope": "native PostgreSQL 18; temporary data mutations",
+  "checks": [
+    "missing_mark_preserves_plan_and_removes_two_attended_hours",
+    "cancelled_class_removes_two_planned_and_attended_hours",
+    "unselected_elective_excluded_even_with_historical_marks",
+    "explain_reads_only_two_weeks_in_report_period"
+  ],
+  "restored": true,
+  "attendance_partitions": [
+    "attendance_w2026_03_09",
+    "attendance_w2026_03_16"
+  ]
+}
