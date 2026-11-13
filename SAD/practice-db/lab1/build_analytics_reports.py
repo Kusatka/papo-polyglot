@@ -34,7 +34,7 @@ def build(number):
         for border in style.element.xpath('.//w:pBdr'):
             border.getparent().remove(border)
         style.paragraph_format.line_spacing = 1.5
-        style.paragraph_format.space_after = Pt(6)
+        style.paragraph_format.space_after = Pt(0 if name == 'Normal' else 6)
     title = doc.add_paragraph(f'Лабораторная работа {number}', 'Title')
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
     doc.add_paragraph('Дисциплина «Проектирование архитектуры ПО»').alignment = WD_ALIGN_PARAGRAPH.CENTER
