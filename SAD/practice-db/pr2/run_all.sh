@@ -4,7 +4,9 @@
 #   --keep  — не выполнять последний шаг «удалить хранилище» (данные остаются для показа в веб-интерфейсах)
 # Вывод каждой СУБД сохраняется в evidence/<субд>.txt
 export MSYS_NO_PATHCONV=1
-set -eo pipefail
+set -Eeo pipefail
+exec 3>&2
+trap 'printf "CRUD command failed at line %s\n" "$LINENO" >&3' ERR
 cd "$(dirname "$0")"
 set -a; source ../pr1/.env; set +a
 mkdir -p evidence
@@ -112,7 +114,10 @@ es() {
   esj GET "$ES/lecture_courses/_doc/$SID?pretty&_source=name,total_hours,tags"
   step "5. Удаление документа"; esj DELETE "$ES/lecture_courses/_doc/$SID?pretty&refresh=true"; esj GET "$ES/lecture_courses/_count?pretty"
   [ -n "$KEEP" ] && return
-  step "6. Удаление хранилища"; esj DELETE "$ES/lecture_courses?pretty"; esj GET "$ES/_cat/indices/lecture_courses?v"
+  step "6. Удаление хранилища"; esj DELETE "$ES/lecture_courses?pretty"
+  code=$(curl -sS -o /dev/null -w '%{http_code}' -I "$ES/lecture_courses")
+  echo "HEAD lecture_courses after deletion -> HTTP $code (expected 404)"
+  [ "$code" = 404 ]
 }
 
 pg() {
