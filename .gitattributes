@@ -1,0 +1,4 @@
+# Redis RESP is a byte protocol: CRLF and declared byte lengths must remain exact.
+*.resp -text
+# Shell scripts must remain executable by Linux shells after Windows checkout.
+*.sh text eol=lf

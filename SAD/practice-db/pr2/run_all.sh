@@ -6,7 +6,7 @@
 export MSYS_NO_PATHCONV=1
 set -Eeo pipefail
 exec 3>&2
-trap 'printf "CRUD command failed at line %s\n" "$LINENO" >&3' ERR
+trap 'printf "CRUD command failed at line %s; caller lines: %s\n" "$LINENO" "${BASH_LINENO[*]}" >&3' ERR
 cd "$(dirname "$0")"
 set -a; source ../pr1/.env; set +a
 mkdir -p evidence
